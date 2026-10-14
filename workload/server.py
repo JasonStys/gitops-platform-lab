@@ -1,61 +1,70 @@
 """Fixed synthetic SRE HTTP workload and exact-owned-service connectivity probe. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: TARGET — line 74
-# definition: synthetic — line 77
-# variable: events — line 79
-# variable: index — line 81
-# definition: Server — line 90
-# variable: daemon_threads — line 93
-# variable: block_on_close — line 94
-# variable: allow_reuse_address — line 95
-# definition: __init__ — line 97
-# parameter: bind — line 97
-# parameter: port — line 97
-# parameter: self — line 97
-# definition: process_request — line 108
-# parameter: client_address — line 108
-# parameter: request — line 108
-# parameter: self — line 108
-# definition: process_request_thread — line 119
-# parameter: client_address — line 119
-# parameter: request — line 119
-# parameter: self — line 119
-# definition: Handler — line 127
-# variable: server — line 130
-# definition: setup — line 132
-# parameter: self — line 132
-# definition: log_message — line 137
-# parameter: args — line 137
-# parameter: format — line 137
-# parameter: self — line 137
-# definition: send_error — line 140
-# parameter: code — line 141
-# parameter: explain — line 141
-# parameter: message — line 141
-# parameter: self — line 141
-# definition: reply — line 146
-# parameter: code — line 146
-# parameter: data — line 146
+# variable: TARGET — line 83
+# definition: ProbeFailure — line 86
+# definition: __init__ — line 89
+# parameter: reason — line 89
+# parameter: self — line 89
+# definition: synthetic — line 104
+# variable: events — line 106
+# variable: index — line 108
+# definition: Server — line 117
+# variable: daemon_threads — line 120
+# variable: block_on_close — line 121
+# variable: allow_reuse_address — line 122
+# definition: __init__ — line 124
+# parameter: bind — line 124
+# parameter: port — line 124
+# parameter: self — line 124
+# definition: process_request — line 135
+# parameter: client_address — line 135
+# parameter: request — line 135
+# parameter: self — line 135
+# definition: process_request_thread — line 146
+# parameter: client_address — line 146
+# parameter: request — line 146
 # parameter: self — line 146
-# variable: body — line 148
-# definition: do_GET — line 163
-# parameter: self — line 163
-# definition: probe — line 173
-# parameter: expect — line 173
-# variable: opener — line 177
-# variable: response — line 179
-# variable: outcome — line 187
-# variable: outcome — line 191
-# variable: outcome — line 193
-# definition: main — line 202
-# variable: parser — line 204
-# variable: args — line 207
-# variable: server — line 212
+# definition: Handler — line 154
+# variable: server — line 157
+# definition: setup — line 159
+# parameter: self — line 159
+# definition: log_message — line 164
+# parameter: args — line 164
+# parameter: format — line 164
+# parameter: self — line 164
+# definition: send_error — line 167
+# parameter: code — line 168
+# parameter: explain — line 168
+# parameter: message — line 168
+# parameter: self — line 168
+# definition: reply — line 173
+# parameter: code — line 173
+# parameter: data — line 173
+# parameter: self — line 173
+# variable: body — line 175
+# definition: do_GET — line 190
+# parameter: self — line 190
+# definition: probe — line 200
+# parameter: expect — line 200
+# variable: opener — line 204
+# variable: response — line 206
+# variable: outcome — line 214
+# variable: reason — line 218
+# variable: reason — line 220
+# variable: reason — line 227
+# variable: reason — line 229
+# variable: outcome — line 231
+# variable: outcome — line 233
+# definition: main — line 242
+# variable: parser — line 244
+# variable: args — line 247
+# variable: server — line 252
 # END CODE MAP
 
 from __future__ import annotations
 
 import argparse
+import errno
 import http.client
 import json
 import socket
@@ -72,6 +81,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "vendor"))
 from sre.slo import Event, Policy, assess  # noqa: E402
 
 TARGET = "http://sre.platform-lab.svc.cluster.local:8080/health"
+
+
+class ProbeFailure(ValueError):
+    """Stable transport/result diagnostic, never the raw request, URL, credentials or exception text."""
+
+    def __init__(self, reason: str) -> None:
+        """Require a fixed allowlisted diagnostic code, not arbitrary private strings."""
+        if reason not in {
+            "connection-refused",
+            "network-unreachable",
+            "dns-failure",
+            "transport-error",
+            "unexpected-response",
+            "expectation-mismatch",
+        }:
+            raise ValueError("invalid diagnostic")
+        self.reason = reason
+        super().__init__(reason)
 
 
 def synthetic() -> dict[str, Any]:
@@ -182,17 +209,30 @@ def probe(expect: str) -> dict[str, str]:
                 or response.read(4096)
                 != b'{"author": "Jason Stys", "status": "ok", "synthetic": true}'
             ):
-                raise ValueError("unexpected service response")
+                raise ProbeFailure("unexpected-response")
     except TimeoutError:
         outcome = "blocked"
     except urllib.error.URLError as error:
         if not isinstance(error.reason, (TimeoutError, socket.timeout)):
-            raise ValueError("non-timeout is not proof of policy") from None
+            if isinstance(error.reason, ConnectionRefusedError):
+                reason = "connection-refused"
+            elif isinstance(error.reason, socket.gaierror):
+                reason = "dns-failure"
+            elif isinstance(error.reason, OSError) and error.reason.errno in {
+                errno.EHOSTUNREACH,
+                errno.ENETUNREACH,
+                errno.EPERM,
+                errno.EACCES,
+            }:
+                reason = "network-unreachable"
+            else:
+                reason = "transport-error"
+            raise ProbeFailure(reason) from None
         outcome = "blocked"
     else:
         outcome = "allowed"
     if outcome != {"allow": "allowed", "deny": "blocked"}[expect]:
-        raise ValueError("network expectation failed")
+        raise ProbeFailure("expectation-mismatch")
     return {
         "outcome": outcome,
         "reason": "http-200" if outcome == "allowed" else "timeout",
@@ -211,6 +251,14 @@ def main() -> int:
         else:
             with Server("0.0.0.0" if args.pod else "127.0.0.1", 8080) as server:
                 server.serve_forever()
+    except ProbeFailure as error:
+        print(
+            json.dumps(
+                {"error": "owned workload check failed", "reason": error.reason},
+                sort_keys=True,
+            )
+        )
+        return 1
     except (ValueError, OSError, http.client.HTTPException):
         print('{"error":"owned workload check failed"}')
         return 1

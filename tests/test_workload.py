@@ -1,45 +1,51 @@
 """Real loopback HTTP, fixed-route privacy, bounded server and positive/timeout-only probe tests. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: test_real_http — line 45
-# variable: server — line 47
-# variable: thread — line 48
-# variable: path — line 51
-# variable: status — line 51
-# variable: connection — line 57
-# variable: response — line 61
-# variable: body — line 62
-# variable: connection — line 68
-# variable: response — line 72
-# definition: test_bind_contract — line 86
-# parameter: bind — line 86
-# parameter: port — line 86
-# definition: test_slots_and_disconnected_peer — line 92
-# variable: server — line 94
-# variable: _ — line 95
-# variable: shutdown — line 96
-# variable: _ — line 99
-# variable: _ — line 106
-# variable: _ — line 107
-# variable: handler — line 109
-# definition: test_denial_is_timeout_only — line 121
-# parameter: failure — line 121
-# definition: test_probe_non_timeout_and_response — line 129
-# variable: response — line 137
-# definition: test_main_and_analyzer — line 158
-# variable: server — line 171
+# definition: test_real_http — line 51
+# variable: server — line 53
+# variable: thread — line 54
+# variable: path — line 57
+# variable: status — line 57
+# variable: connection — line 63
+# variable: response — line 67
+# variable: body — line 68
+# variable: connection — line 74
+# variable: response — line 78
+# definition: test_bind_contract — line 92
+# parameter: bind — line 92
+# parameter: port — line 92
+# definition: test_slots_and_disconnected_peer — line 98
+# variable: server — line 100
+# variable: _ — line 101
+# variable: shutdown — line 102
+# variable: _ — line 105
+# variable: _ — line 112
+# variable: _ — line 113
+# variable: handler — line 115
+# definition: test_denial_is_timeout_only — line 127
+# parameter: failure — line 127
+# definition: test_probe_non_timeout_and_response — line 135
+# variable: response — line 143
+# definition: test_main_and_analyzer — line 164
+# definition: test_safe_transport_diagnostics — line 183
+# parameter: error — line 183
+# parameter: reason — line 183
+# variable: failure — line 188
+# variable: server — line 203
 # END CODE MAP
 
 from __future__ import annotations
 
+import errno
 import http.client
 import json
+import socket
 import threading
 import urllib.error
 from unittest.mock import Mock, patch
 
 import pytest
 
-from workload.server import Handler, Server, main, probe, synthetic
+from workload.server import Handler, ProbeFailure, Server, main, probe, synthetic
 
 
 def test_real_http() -> None:
@@ -163,6 +169,32 @@ def test_main_and_analyzer() -> None:
         patch("workload.server.probe", return_value={"outcome": "allowed"}),
     ):
         assert main() == 0
+
+
+@pytest.mark.parametrize(
+    ("error", "reason"),
+    [
+        (socket.gaierror(), "dns-failure"),
+        (ConnectionRefusedError(), "connection-refused"),
+        (OSError(errno.EHOSTUNREACH, "private message"), "network-unreachable"),
+        (OSError(123, "private message"), "transport-error"),
+    ],
+)
+def test_safe_transport_diagnostics(error: Exception, reason: str) -> None:
+    """Classify actual failures without treating them as a timeout or disclosing exception contents."""
+    with patch(
+        "urllib.request.OpenerDirector.open", side_effect=urllib.error.URLError(error)
+    ):
+        with pytest.raises(ProbeFailure) as failure:
+            probe("deny")
+        assert failure.value.reason == reason and "private" not in str(failure.value)
+    with (
+        patch("sys.argv", ["server", "--probe", "deny"]),
+        patch("workload.server.probe", side_effect=ProbeFailure(reason)),
+    ):
+        assert main() == 1
+    with pytest.raises(ValueError):
+        ProbeFailure("private unapproved text")
     with (
         patch("sys.argv", ["server", "--probe", "deny"]),
         patch("workload.server.probe", side_effect=ValueError),
