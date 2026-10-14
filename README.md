@@ -10,7 +10,7 @@ A runnable, disposable Kubernetes lab that proves Git reconciliation, drift repa
 - **Real GitOps:** Flux source/kustomize/helm controllers read a synthetic Git repository, apply namespace-scoped Helm releases, consume exact commits, and restore a deliberately drifted replica count.
 - **Existing portfolio workload:** an unchanged, hash-pinned SRE analyzer from [SRE Observability Workbench](https://github.com/JasonStys/sre-observability-workbench/tree/3bbe2f4fde0cd82c91ef0946a0c6dd3bed60dc39), wrapped in a dependency-free, fixed-route synthetic HTTP service. `/health` proves readiness; `/work` runs its actual 40-event SLO calculation.
 - **Layered controls:** a closed Helm values schema and independent rendered-resource policy; non-root/read-only/capability-dropped pods; no runtime API token; namespace-scoped reconciliation/delivery service accounts; restricted Pod Security admission.
-- **Live networking proof:** a default-deny policy with namespace **AND** pod-label ingress selectors. Tests require a valid HTTP positive control, timeout-only denied probes and a successful positive control after every negative case.
+- **Live networking proof:** a default-deny policy with namespace **AND** pod-label ingress selectors. Denial requires an eligible transport observation plus an increase in scoped live REJECT counters, a verified probe exit, and healthy HTTP controls before/after. Refusal, timeout or DNS failure alone cannot pass.
 - **Recovery:** a deliberately bad scratch Git revision fails readiness; actual Helm history retains the failed revision and a successful rollback. A later healthy Git commit resolves the failed intent. The public repository never adopts the bad configuration.
 - **Evidence and delivery:** bounded parsers, real native HTTP/Git tests, negative/property cases, strict types/lint, native Helm validation, measured benchmarks, inert HTML/JSON reports, hash-pinned tools and storage-free Actions workflows.
 
@@ -95,6 +95,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [lab/__main__.py](lab/__main__.py) | Offline policy/report CLI; arbitrary files are not executed or sent anywhere. Jason Stys. |
 | [lab/contracts.py](lab/contracts.py) | Strict bounded document loading; inputs are data, never commands. Created by Jason Stys. |
 | [lab/evidence.py](lab/evidence.py) | Closed measured drill reports and inert HTML publication, never cluster secrets. Jason Stys. |
+| [lab/network.py](lab/network.py) | Observed K3s denial requires transport, active scoped rule counters and external controls. Jason Stys. |
 | [lab/policy.py](lab/policy.py) | Fail-closed policies for this one closed Helm workload, not arbitrary Kubernetes. Jason Stys. |
 | [ops/bootstrap.yml](ops/bootstrap.yml) | Administrator-only disposable bootstrap, outside the reviewed workload Git path. Jason Stys. |
 | [ops/sync.yml](ops/sync.yml) | Public HTTPS source template; disposable drill replaces only the owned source URL. Jason Stys. |
@@ -119,6 +120,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [tests/test_contracts.py](tests/test_contracts.py) | Duplicate/alias/type/file/UTF8/size/nesting adversarial inputs and normal parser boundaries. Jason Stys. |
 | [tests/test_evidence.py](tests/test_evidence.py) | Incomplete/false success, fingerprint, report-escaping and CLI privacy regression tests. Jason Stys. |
 | [tests/test_git_server.py](tests/test_git_server.py) | Real clone/fetch proof for isolated read-only smart HTTP Git; endpoints never accept pushes. Jason Stys. |
+| [tests/test_network.py](tests/test_network.py) | Negative oracles: refusal/timeout alone never prove policy; counts and positive controls are mandatory. Jason Stys. |
 | [tests/test_policy.py](tests/test_policy.py) | Negative security-policy cases, type boundaries, selector semantics and randomized replicas. Jason Stys. |
 | [tests/test_workload.py](tests/test_workload.py) | Real loopback HTTP, fixed-route privacy, bounded server and positive/timeout-only probe tests. Jason Stys. |
 | [tools.lock.json](tools.lock.json) | Official tool archive hashes and immutable K3s image digest. |

@@ -16,7 +16,7 @@ The run creates its private output/kubeconfig and cluster, installs real Flux co
 - Parser/CLI exit 2: duplicate/nonfinite/deep/oversized/non-UTF8 input, wrong supported structure, ordinary-file violation, or an existing output directory. Use a new output name; do not overwrite prior evidence.
 - Git source not Ready: verify the owned read-only HTTP server and source URL, exact branch/ref, private bridge, controller events and source revision. Flux supports HTTP/S or SSH sources; the test server uses real smart HTTP, not a simulated “Git update”.
 - RBAC failure: inspect the specific role/impersonated SA and namespace. Never give the tenant a cluster-admin binding to make a test pass.
-- Unexpected network result: confirm positive control, DNS and actual K3s policy controller. A refused/dead/DNS-failed service is not policy enforcement. Do not remove the negative probe or change expectations to success.
+- Unexpected network result: confirm positive control, DNS, actual K3s policy controller and increasing scoped REJECT counters while the probe is active. A refused/dead/DNS-failed service alone is not policy enforcement. The fixed acknowledgement lets the probe exit only after its receipt/counters are collected; inspect that protocol if a Pod disappears before observation. Do not remove negative probes or count generic errors as success.
 - Failed upgrade: HelmRelease can stay not Ready after a successful rollback because desired Git is still bad. Preserve failed history/condition evidence; commit the healthy revision rather than treating old running pods as successful reconciliation.
 - Image advisory: upgrade/rebuild the appropriate dependency/base and re-run the entire gate. Do not suppress a vulnerability just for a green badge.
 

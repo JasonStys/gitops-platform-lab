@@ -1,161 +1,161 @@
 """Actual disposable K3s/Flux/Helm Git, policy, drift and rollback drill. Created by Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
 # variable: ROOT — line 179
-# definition: loopback_port — line 184
-# variable: reservation — line 186
-# definition: validate_config — line 191
-# parameter: cluster — line 191
-# parameter: content — line 191
-# parameter: port — line 191
-# variable: config — line 193
-# variable: expected — line 194
-# variable: clusters — line 201
-# variable: contexts — line 202
-# definition: Drill — line 217
-# definition: __init__ — line 220
-# parameter: output — line 220
-# parameter: self — line 220
-# definition: run — line 234
-# parameter: self — line 235
-# parameter: args — line 236
-# parameter: cwd — line 238
-# parameter: data — line 239
-# parameter: valid — line 240
-# parameter: timeout — line 241
-# parameter: include_error — line 242
-# variable: executable — line 245
-# variable: command — line 246
-# variable: completed — line 247
-# definition: kube — line 268
-# parameter: args — line 269
-# parameter: data — line 269
-# parameter: self — line 269
-# parameter: valid — line 269
-# definition: get — line 278
-# parameter: kind — line 279
-# parameter: name — line 279
-# parameter: namespace — line 279
-# parameter: self — line 279
-# variable: output — line 282
-# definition: wait — line 287
-# parameter: predicate — line 287
-# parameter: self — line 287
-# parameter: timeout — line 287
-# variable: deadline — line 289
-# definition: check — line 296
-# parameter: evidence — line 296
-# parameter: name — line 296
-# parameter: self — line 296
-# parameter: started — line 296
-# variable: item — line 298
-# definition: commit — line 309
-# parameter: path — line 309
-# parameter: replicas — line 309
-# parameter: revision — line 309
-# parameter: self — line 309
-# variable: target — line 311
-# variable: release — line 312
-# definition: ready — line 324
-# parameter: replicas — line 324
-# parameter: revision — line 324
-# parameter: self — line 324
-# variable: deployment — line 326
-# variable: spec — line 329
-# variable: status — line 329
-# variable: helm — line 330
-# variable: conditions — line 333
-# variable: item — line 344
-# definition: source_seen — line 348
-# parameter: commit — line 348
-# parameter: self — line 348
-# variable: revision — line 350
-# definition: network — line 358
-# parameter: expected — line 358
-# parameter: namespace — line 358
-# parameter: role — line 358
-# parameter: self — line 358
-# variable: name — line 360
-# variable: pod — line 361
-# variable: before — line 398
-# variable: receipts — line 407
-# definition: logged — line 409
-# variable: logs — line 411
-# variable: logs — line 418
-# variable: after — line 419
-# variable: result — line 437
-# variable: proof — line 452
-# definition: reject_count — line 463
-# parameter: self — line 463
-# variable: source — line 465
-# variable: counts — line 474
-# variable: line — line 475
-# variable: match — line 481
-# definition: bootstrap — line 488
-# parameter: self — line 488
-# variable: started — line 490
-# variable: endpoint — line 491
-# variable: lock — line 500
-# variable: api_port — line 503
-# variable: kubeconfig — line 527
-# variable: image_id — line 532
-# variable: controllers — line 544
-# variable: controller — line 555
-# variable: account — line 568
-# variable: controller — line 568
-# variable: current — line 572
-# variable: args — line 573
-# variable: args — line 574
-# variable: folder — line 605
-# variable: bare — line 608
-# variable: commit — line 622
-# variable: network — line 623
-# variable: gateway — line 626
-# variable: sync — line 644
-# definition: execute — line 662
-# parameter: self — line 662
-# variable: image_id — line 664
-# variable: started — line 665
-# variable: promotion — line 666
-# variable: started — line 671
-# variable: injection — line 672
-# variable: started — line 692
-# variable: account — line 693
-# variable: expected — line 693
-# variable: namespace — line 693
-# variable: resource — line 693
-# variable: verb — line 693
-# variable: result — line 707
-# variable: expected — line 730
-# variable: namespace — line 730
-# variable: role — line 730
-# variable: scenario — line 730
-# variable: started — line 735
-# variable: proof — line 736
-# variable: started — line 740
-# variable: unsafe — line 741
-# variable: result — line 755
-# variable: started — line 778
-# variable: broken — line 779
-# variable: item — line 788
-# variable: history — line 802
-# variable: item — line 806
-# variable: started — line 821
-# variable: recovery — line 822
-# variable: report — line 829
-# definition: close — line 844
-# parameter: self — line 844
-# definition: diagnostics — line 856
-# parameter: self — line 856
-# variable: kind — line 860
-# variable: name — line 860
-# variable: item — line 867
-# variable: conditions — line 868
-# variable: key — line 876
-# variable: condition — line 878
-# definition: main — line 891
-# variable: parser — line 893
-# variable: args — line 896
-# variable: drill — line 901
+# definition: loopback_port — line 185
+# variable: reservation — line 187
+# definition: validate_config — line 192
+# parameter: cluster — line 192
+# parameter: content — line 192
+# parameter: port — line 192
+# variable: config — line 194
+# variable: expected — line 195
+# variable: clusters — line 202
+# variable: contexts — line 203
+# definition: Drill — line 218
+# definition: __init__ — line 221
+# parameter: output — line 221
+# parameter: self — line 221
+# definition: run — line 235
+# parameter: self — line 236
+# parameter: args — line 237
+# parameter: cwd — line 239
+# parameter: data — line 240
+# parameter: valid — line 241
+# parameter: timeout — line 242
+# parameter: include_error — line 243
+# variable: executable — line 246
+# variable: command — line 247
+# variable: completed — line 248
+# definition: kube — line 269
+# parameter: args — line 270
+# parameter: data — line 270
+# parameter: self — line 270
+# parameter: valid — line 270
+# definition: get — line 279
+# parameter: kind — line 280
+# parameter: name — line 280
+# parameter: namespace — line 280
+# parameter: self — line 280
+# variable: output — line 283
+# definition: wait — line 288
+# parameter: predicate — line 288
+# parameter: self — line 288
+# parameter: timeout — line 288
+# variable: deadline — line 290
+# definition: check — line 297
+# parameter: evidence — line 297
+# parameter: name — line 297
+# parameter: self — line 297
+# parameter: started — line 297
+# variable: item — line 299
+# definition: commit — line 310
+# parameter: path — line 310
+# parameter: replicas — line 310
+# parameter: revision — line 310
+# parameter: self — line 310
+# variable: target — line 312
+# variable: release — line 313
+# definition: ready — line 325
+# parameter: replicas — line 325
+# parameter: revision — line 325
+# parameter: self — line 325
+# variable: deployment — line 327
+# variable: spec — line 330
+# variable: status — line 330
+# variable: helm — line 331
+# variable: conditions — line 334
+# variable: item — line 345
+# definition: source_seen — line 349
+# parameter: commit — line 349
+# parameter: self — line 349
+# variable: revision — line 351
+# definition: network — line 359
+# parameter: expected — line 359
+# parameter: namespace — line 359
+# parameter: role — line 359
+# parameter: self — line 359
+# variable: name — line 361
+# variable: pod — line 362
+# variable: before — line 399
+# variable: receipts — line 408
+# definition: logged — line 410
+# variable: logs — line 412
+# variable: logs — line 419
+# variable: after — line 420
+# variable: result — line 438
+# variable: proof — line 453
+# definition: reject_count — line 460
+# parameter: self — line 460
+# variable: source — line 462
+# variable: counts — line 471
+# variable: line — line 472
+# variable: match — line 478
+# definition: bootstrap — line 485
+# parameter: self — line 485
+# variable: started — line 487
+# variable: endpoint — line 488
+# variable: lock — line 497
+# variable: api_port — line 500
+# variable: kubeconfig — line 524
+# variable: image_id — line 529
+# variable: controllers — line 541
+# variable: controller — line 552
+# variable: account — line 565
+# variable: controller — line 565
+# variable: current — line 569
+# variable: args — line 570
+# variable: args — line 571
+# variable: folder — line 602
+# variable: bare — line 605
+# variable: commit — line 619
+# variable: network — line 620
+# variable: gateway — line 623
+# variable: sync — line 641
+# definition: execute — line 659
+# parameter: self — line 659
+# variable: image_id — line 661
+# variable: started — line 662
+# variable: promotion — line 663
+# variable: started — line 668
+# variable: injection — line 669
+# variable: started — line 689
+# variable: account — line 690
+# variable: expected — line 690
+# variable: namespace — line 690
+# variable: resource — line 690
+# variable: verb — line 690
+# variable: result — line 704
+# variable: expected — line 727
+# variable: namespace — line 727
+# variable: role — line 727
+# variable: scenario — line 727
+# variable: started — line 732
+# variable: proof — line 733
+# variable: started — line 737
+# variable: unsafe — line 738
+# variable: result — line 752
+# variable: started — line 775
+# variable: broken — line 776
+# variable: item — line 785
+# variable: history — line 799
+# variable: item — line 803
+# variable: started — line 818
+# variable: recovery — line 819
+# variable: report — line 826
+# definition: close — line 841
+# parameter: self — line 841
+# definition: diagnostics — line 853
+# parameter: self — line 853
+# variable: kind — line 857
+# variable: name — line 857
+# variable: item — line 864
+# variable: conditions — line 865
+# variable: key — line 873
+# variable: condition — line 875
+# definition: main — line 888
+# variable: parser — line 890
+# variable: args — line 893
+# variable: drill — line 898
 # END CODE MAP
 
 from __future__ import annotations
@@ -179,6 +179,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from lab.evidence import SCENARIOS, publish  # noqa: E402
+from lab.network import validate_observation  # noqa: E402
 
 
 def loopback_port() -> int:
@@ -355,7 +356,7 @@ class Drill:
         )
         return revision.endswith(commit)
 
-    def network(self, namespace: str, role: str, expected: str) -> dict[str, str]:
+    def network(self, namespace: str, role: str, expected: str) -> dict[str, Any]:
         """Run a bounded restricted probe Pod against the exact owned Service; no exec shell or arbitrary target."""
         name = "probe-" + uuid.uuid4().hex[:8]
         pod = {
@@ -450,15 +451,11 @@ class Drill:
                 )
             raise AssertionError("live network probe failed: " + logs[-500:])
         proof = json.loads(logs)
-        if proof != {
-            "outcome": "allowed" if expected == "allow" else "blocked",
-            "reason": "http-200" if expected == "allow" else "timeout",
-        }:
-            raise AssertionError("network proof invalid")
+        validate_observation(proof, expected, before, after)
         self.kube(
             "delete", "pod", name, "-n", namespace, "--wait=true", "--timeout=30s"
         )
-        return proof
+        return {**proof, "reject_packets_before": before, "reject_packets_after": after}
 
     def reject_count(self) -> int:
         """Measure only this workload namespace's actual kube-router REJECT rule packet counters on the owned node."""
@@ -475,7 +472,7 @@ class Drill:
         for line in source.splitlines():
             if (
                 "KUBE-POD-FW-" in line
-                and "namespace: platform-lab" in line
+                and re.search(r'namespace: platform-lab(?:"|\s)', line)
                 and "-j REJECT" in line
             ):
                 match = re.match(r"\[(\d+):\d+\]", line)

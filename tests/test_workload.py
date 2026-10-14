@@ -21,20 +21,20 @@
 # variable: _ — line 116
 # variable: _ — line 117
 # variable: handler — line 119
-# definition: test_denial_is_timeout_only — line 131
+# definition: test_timeout_is_provisional — line 131
 # parameter: failure — line 131
 # definition: test_probe_non_timeout_and_response — line 139
-# variable: response — line 147
-# definition: test_main_and_analyzer — line 168
-# definition: test_safe_transport_diagnostics — line 187
-# parameter: error — line 187
-# parameter: reason — line 187
-# variable: failure — line 192
-# variable: server — line 207
-# definition: test_observation_receipt — line 212
-# parameter: monkeypatch — line 212
-# variable: registration — line 219
-# variable: gate — line 220
+# variable: response — line 146
+# definition: test_main_and_analyzer — line 167
+# definition: test_safe_transport_diagnostics — line 186
+# parameter: error — line 186
+# parameter: reason — line 186
+# variable: failure — line 194
+# variable: server — line 211
+# definition: test_observation_receipt — line 216
+# parameter: monkeypatch — line 216
+# variable: registration — line 223
+# variable: gate — line 224
 # END CODE MAP
 
 from __future__ import annotations
@@ -128,8 +128,8 @@ def test_slots_and_disconnected_peer() -> None:
 @pytest.mark.parametrize(
     "failure", [TimeoutError(), urllib.error.URLError(TimeoutError())]
 )
-def test_denial_is_timeout_only(failure: Exception) -> None:
-    """Only an actual socket timeout qualifies as a blocked observation; success fails a deny expectation."""
+def test_timeout_is_provisional(failure: Exception) -> None:
+    """Timeout is a provisional observation, not a policy verdict; the host oracle supplies counters/controls."""
     with patch("urllib.request.OpenerDirector.open", side_effect=failure):
         assert probe("deny") == {"outcome": "blocked", "reason": "timeout"}
         with pytest.raises(ValueError):
@@ -137,13 +137,12 @@ def test_denial_is_timeout_only(failure: Exception) -> None:
 
 
 def test_probe_non_timeout_and_response() -> None:
-    """DNS/refused/invalid body/HTTP status failures are not counted as network policy enforcement."""
+    """Refusal is only a provisional observation, while invalid HTTP/DNS responses remain failures."""
     with patch(
         "urllib.request.OpenerDirector.open",
         side_effect=urllib.error.URLError(ConnectionRefusedError()),
     ):
-        with pytest.raises(ValueError):
-            probe("deny")
+        assert probe("deny") == {"outcome": "blocked", "reason": "connection-refused"}
     response = Mock()
     response.__enter__ = Mock(return_value=response)
     response.__exit__ = Mock(return_value=False)
@@ -189,9 +188,14 @@ def test_safe_transport_diagnostics(error: Exception, reason: str) -> None:
     with patch(
         "urllib.request.OpenerDirector.open", side_effect=urllib.error.URLError(error)
     ):
-        with pytest.raises(ProbeFailure) as failure:
-            probe("deny")
-        assert failure.value.reason == reason and "private" not in str(failure.value)
+        if reason in {"connection-refused", "network-unreachable"}:
+            assert probe("deny") == {"outcome": "blocked", "reason": reason}
+        else:
+            with pytest.raises(ProbeFailure) as failure:
+                probe("deny")
+            assert failure.value.reason == reason and "private" not in str(
+                failure.value
+            )
     with (
         patch("sys.argv", ["server", "--probe", "deny"]),
         patch("workload.server.probe", side_effect=ProbeFailure(reason)),

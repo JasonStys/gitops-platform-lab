@@ -1,71 +1,74 @@
 """Fixed synthetic SRE HTTP workload and exact-owned-service connectivity probe. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: TARGET — line 91
-# definition: ProbeFailure — line 94
-# definition: __init__ — line 97
-# parameter: reason — line 97
-# parameter: self — line 97
-# definition: synthetic — line 112
-# variable: events — line 114
-# variable: index — line 116
-# definition: Server — line 125
-# variable: daemon_threads — line 128
-# variable: block_on_close — line 129
-# variable: allow_reuse_address — line 130
-# definition: __init__ — line 132
-# parameter: bind — line 132
-# parameter: port — line 132
-# parameter: self — line 132
-# definition: process_request — line 143
-# parameter: client_address — line 143
-# parameter: request — line 143
-# parameter: self — line 143
-# definition: process_request_thread — line 154
-# parameter: client_address — line 154
-# parameter: request — line 154
-# parameter: self — line 154
-# definition: Handler — line 162
-# variable: server — line 165
-# definition: setup — line 167
-# parameter: self — line 167
-# definition: log_message — line 172
-# parameter: args — line 172
-# parameter: format — line 172
-# parameter: self — line 172
-# definition: send_error — line 175
-# parameter: code — line 176
-# parameter: explain — line 176
-# parameter: message — line 176
-# parameter: self — line 176
-# definition: reply — line 181
-# parameter: code — line 181
-# parameter: data — line 181
-# parameter: self — line 181
-# variable: body — line 183
-# definition: do_GET — line 198
-# parameter: self — line 198
-# definition: probe — line 208
-# parameter: expect — line 208
-# variable: opener — line 212
-# variable: response — line 214
-# variable: outcome — line 222
+# variable: TARGET — line 94
+# definition: ProbeFailure — line 97
+# definition: __init__ — line 100
+# parameter: reason — line 100
+# parameter: self — line 100
+# definition: synthetic — line 115
+# variable: events — line 117
+# variable: index — line 119
+# definition: Server — line 128
+# variable: daemon_threads — line 131
+# variable: block_on_close — line 132
+# variable: allow_reuse_address — line 133
+# definition: __init__ — line 135
+# parameter: bind — line 135
+# parameter: port — line 135
+# parameter: self — line 135
+# definition: process_request — line 146
+# parameter: client_address — line 146
+# parameter: request — line 146
+# parameter: self — line 146
+# definition: process_request_thread — line 157
+# parameter: client_address — line 157
+# parameter: request — line 157
+# parameter: self — line 157
+# definition: Handler — line 165
+# variable: server — line 168
+# definition: setup — line 170
+# parameter: self — line 170
+# definition: log_message — line 175
+# parameter: args — line 175
+# parameter: format — line 175
+# parameter: self — line 175
+# definition: send_error — line 178
+# parameter: code — line 179
+# parameter: explain — line 179
+# parameter: message — line 179
+# parameter: self — line 179
+# definition: reply — line 184
+# parameter: code — line 184
+# parameter: data — line 184
+# parameter: self — line 184
+# variable: body — line 186
+# definition: do_GET — line 201
+# parameter: self — line 201
+# definition: probe — line 211
+# parameter: expect — line 211
+# variable: opener — line 215
+# variable: response — line 217
+# variable: outcome — line 225
 # variable: reason — line 226
-# variable: reason — line 228
-# variable: reason — line 235
-# variable: reason — line 237
-# variable: outcome — line 239
-# variable: outcome — line 241
-# definition: main — line 250
-# variable: parser — line 252
-# variable: args — line 256
-# variable: server — line 261
-# definition: emit — line 275
-# parameter: data — line 275
-# parameter: hold — line 275
-# variable: released — line 282
-# variable: prior — line 283
-# parameter: _frame — line 284
-# parameter: _number — line 284
+# variable: reason — line 230
+# variable: reason — line 232
+# variable: reason — line 239
+# variable: reason — line 241
+# variable: reason — line 245
+# variable: outcome — line 246
+# variable: outcome — line 248
+# variable: reason — line 249
+# definition: main — line 258
+# variable: parser — line 260
+# variable: args — line 264
+# variable: server — line 269
+# definition: emit — line 283
+# parameter: data — line 283
+# parameter: hold — line 283
+# variable: released — line 290
+# variable: prior — line 291
+# parameter: _frame — line 292
+# parameter: _number — line 292
 # END CODE MAP
 
 from __future__ import annotations
@@ -206,7 +209,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def probe(expect: str) -> dict[str, str]:
-    """Probe only the owned cluster Service; deny is proved only by a timeout, never any generic failure."""
+    """Return a provisional owned-Service transport observation; only the host counter/control oracle proves denial."""
     if expect not in {"allow", "deny"}:
         raise ValueError("invalid expectation")
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
@@ -220,6 +223,7 @@ def probe(expect: str) -> dict[str, str]:
                 raise ProbeFailure("unexpected-response")
     except TimeoutError:
         outcome = "blocked"
+        reason = "timeout"
     except urllib.error.URLError as error:
         if not isinstance(error.reason, (TimeoutError, socket.timeout)):
             if isinstance(error.reason, ConnectionRefusedError):
@@ -235,15 +239,19 @@ def probe(expect: str) -> dict[str, str]:
                 reason = "network-unreachable"
             else:
                 reason = "transport-error"
-            raise ProbeFailure(reason) from None
+            if reason not in {"connection-refused", "network-unreachable"}:
+                raise ProbeFailure(reason) from None
+        else:
+            reason = "timeout"
         outcome = "blocked"
     else:
         outcome = "allowed"
+        reason = "http-200"
     if outcome != {"allow": "allowed", "deny": "blocked"}[expect]:
         raise ProbeFailure("expectation-mismatch")
     return {
         "outcome": outcome,
-        "reason": "http-200" if outcome == "allowed" else "timeout",
+        "reason": reason,
     }
 
 
