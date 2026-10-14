@@ -1,24 +1,25 @@
 """Generate exhaustive Git-tracked README summaries without including ignored runtime data. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ROOT — line 31
-# variable: BEGIN — line 32
-# variable: END — line 32
-# variable: SPECIAL — line 33
-# definition: description — line 56
-# parameter: path — line 56
-# variable: content — line 60
-# variable: line — line 67
-# definition: main — line 72
-# variable: parser — line 74
-# variable: args — line 76
-# variable: files — line 77
-# variable: rows — line 85
-# variable: path — line 86
-# variable: readme — line 88
-# variable: original — line 89
-# variable: begin — line 90
-# variable: end — line 90
-# variable: expected — line 91
+# variable: ROOT — line 32
+# variable: BEGIN — line 33
+# variable: END — line 33
+# variable: SPECIAL — line 34
+# definition: description — line 57
+# parameter: path — line 57
+# variable: content — line 61
+# variable: line — line 68
+# definition: main — line 73
+# variable: parser — line 75
+# variable: args — line 77
+# variable: files — line 78
+# variable: rows — line 86
+# variable: path — line 87
+# variable: label — line 88
+# variable: readme — line 90
+# variable: original — line 91
+# variable: begin — line 92
+# variable: end — line 92
+# variable: expected — line 93
 # END CODE MAP
 
 from __future__ import annotations
@@ -84,7 +85,8 @@ def main() -> int:
         raise ValueError("stage intended files first")
     rows = ["| File | Purpose |", "| --- | --- |"]
     for path in sorted(files):
-        rows.append(f"| [{path}]({path}) | {description(path).replace('|', '/')} |")
+        label = path.replace("_", "\\_")
+        rows.append(f"| [{label}]({path}) | {description(path).replace('|', '/')} |")
     readme = ROOT / "README.md"
     original = readme.read_text(encoding="utf-8")
     begin, end = original.index(BEGIN) + len(BEGIN), original.index(END)

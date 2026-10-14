@@ -94,8 +94,8 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [examples/rendered.json](examples/rendered.json) | Actual native Helm render, reproduced and compared by manifest checks. |
 | [gitops/kustomization.yml](gitops/kustomization.yml) | Reviewed Git path: one HelmRelease, never cluster-scoped bootstrap permissions. Jason Stys. |
 | [gitops/release.yml](gitops/release.yml) | Namespace-scoped Helm delivery with drift repair and final-failure rollback. Jason Stys. |
-| [lab/__init__.py](lab/__init__.py) | Bounded offline manifest and measured GitOps evidence tools. Created by Jason Stys. |
-| [lab/__main__.py](lab/__main__.py) | Offline policy/report CLI; arbitrary files are not executed or sent anywhere. Jason Stys. |
+| [lab/\_\_init\_\_.py](lab/__init__.py) | Bounded offline manifest and measured GitOps evidence tools. Created by Jason Stys. |
+| [lab/\_\_main\_\_.py](lab/__main__.py) | Offline policy/report CLI; arbitrary files are not executed or sent anywhere. Jason Stys. |
 | [lab/contracts.py](lab/contracts.py) | Strict bounded document loading; inputs are data, never commands. Created by Jason Stys. |
 | [lab/evidence.py](lab/evidence.py) | Closed measured drill reports and inert HTML publication, never cluster secrets. Jason Stys. |
 | [lab/network.py](lab/network.py) | Observed K3s denial requires transport, active scoped rule counters and external controls. Jason Stys. |
@@ -109,29 +109,29 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [requirements.lock](requirements.lock) | Complete hash-pinned portable runtime dependency graph. |
 | [scripts/benchmark.py](scripts/benchmark.py) | Informational warmed policy parsing/audit benchmark with an actual correctness oracle. Jason Stys. |
 | [scripts/bootstrap.py](scripts/bootstrap.py) | Install explicit hash-pinned official tools without shell installers or unsafe extraction. Jason Stys. |
-| [scripts/cluster_drill.py](scripts/cluster_drill.py) | Actual disposable K3s/Flux/Helm Git, policy, drift and rollback drill. Created by Jason Stys. |
-| [scripts/code_map.py](scripts/code_map.py) | Generate/check exact Python, SQL, shell and YAML symbol positions. Created by Jason Stys. |
-| [scripts/file_guide.py](scripts/file_guide.py) | Generate exhaustive Git-tracked README summaries without including ignored runtime data. Jason Stys. |
-| [scripts/git_server.py](scripts/git_server.py) | Read-only bounded smart HTTP Git service for owned synthetic CI repositories. Created by Jason Stys. |
-| [scripts/manifest_check.py](scripts/manifest_check.py) | Actual native Helm schema/render tests and deterministic measured example maintenance. Jason Stys. |
+| [scripts/cluster\_drill.py](scripts/cluster_drill.py) | Actual disposable K3s/Flux/Helm Git, policy, drift and rollback drill. Created by Jason Stys. |
+| [scripts/code\_map.py](scripts/code_map.py) | Generate/check exact Python, SQL, shell and YAML symbol positions. Created by Jason Stys. |
+| [scripts/file\_guide.py](scripts/file_guide.py) | Generate exhaustive Git-tracked README summaries without including ignored runtime data. Jason Stys. |
+| [scripts/git\_server.py](scripts/git_server.py) | Read-only bounded smart HTTP Git service for owned synthetic CI repositories. Created by Jason Stys. |
+| [scripts/manifest\_check.py](scripts/manifest_check.py) | Actual native Helm schema/render tests and deterministic measured example maintenance. Jason Stys. |
 | [scripts/scanners.py](scripts/scanners.py) | Install only hash-pinned official Linux scanner binaries. Created by Jason Stys. |
 | [scripts/validate.sh](scripts/validate.sh) | Strict portable tests and documentation/source invariants. Created by Jason Stys. |
-| [scripts/validate_repo.py](scripts/validate_repo.py) | Verify untouched upstream source, workflow permissions/storage rules and reviewed release contracts. Jason Stys. |
-| [tests/__init__.py](tests/__init__.py) | Synthetic tests by Jason Stys; fixtures are not measured cluster reports. |
+| [scripts/validate\_repo.py](scripts/validate_repo.py) | Verify untouched upstream source, workflow permissions/storage rules and reviewed release contracts. Jason Stys. |
+| [tests/\_\_init\_\_.py](tests/__init__.py) | Synthetic tests by Jason Stys; fixtures are not measured cluster reports. |
 | [tests/conftest.py](tests/conftest.py) | Private per-test fixtures, with real Helm-rendered resources and explicitly fake report inputs. Jason Stys. |
-| [tests/test_cluster_guards.py](tests/test_cluster_guards.py) | Native context/port guard regressions; no Docker or existing Kubernetes cluster is touched. Jason Stys. |
-| [tests/test_contracts.py](tests/test_contracts.py) | Duplicate/alias/type/file/UTF8/size/nesting adversarial inputs and normal parser boundaries. Jason Stys. |
-| [tests/test_evidence.py](tests/test_evidence.py) | Incomplete/false success, fingerprint, report-escaping and CLI privacy regression tests. Jason Stys. |
-| [tests/test_git_server.py](tests/test_git_server.py) | Real clone/fetch proof for isolated read-only smart HTTP Git; endpoints never accept pushes. Jason Stys. |
-| [tests/test_network.py](tests/test_network.py) | Negative oracles: refusal/timeout alone never prove policy; counts and positive controls are mandatory. Jason Stys. |
-| [tests/test_policy.py](tests/test_policy.py) | Negative security-policy cases, type boundaries, selector semantics and randomized replicas. Jason Stys. |
-| [tests/test_workload.py](tests/test_workload.py) | Real loopback HTTP, fixed-route privacy, bounded server and positive/timeout-only probe tests. Jason Stys. |
+| [tests/test\_cluster\_guards.py](tests/test_cluster_guards.py) | Native context/port guard regressions; no Docker or existing Kubernetes cluster is touched. Jason Stys. |
+| [tests/test\_contracts.py](tests/test_contracts.py) | Duplicate/alias/type/file/UTF8/size/nesting adversarial inputs and normal parser boundaries. Jason Stys. |
+| [tests/test\_evidence.py](tests/test_evidence.py) | Incomplete/false success, fingerprint, report-escaping and CLI privacy regression tests. Jason Stys. |
+| [tests/test\_git\_server.py](tests/test_git_server.py) | Real clone/fetch proof for isolated read-only smart HTTP Git; endpoints never accept pushes. Jason Stys. |
+| [tests/test\_network.py](tests/test_network.py) | Negative oracles: refusal/timeout alone never prove policy; counts and positive controls are mandatory. Jason Stys. |
+| [tests/test\_policy.py](tests/test_policy.py) | Negative security-policy cases, type boundaries, selector semantics and randomized replicas. Jason Stys. |
+| [tests/test\_workload.py](tests/test_workload.py) | Real loopback HTTP, route privacy, bounded server and provisional transport/acknowledgement tests. Jason Stys. |
 | [tools.lock.json](tools.lock.json) | Official tool archive hashes and immutable K3s image digest. |
 | [upstream.lock.json](upstream.lock.json) | Exact SRE repository revision and byte digests of reused source/notice. |
 | [vendor/LICENSE](vendor/LICENSE) | Intact MIT notice for the pinned existing SRE analyzer. |
-| [vendor/sre/__init__.py](vendor/sre/__init__.py) | Local synthetic SRE workbench. Created by Jason Stys; https://github.com/JasonStys. |
+| [vendor/sre/\_\_init\_\_.py](vendor/sre/__init__.py) | Local synthetic SRE workbench. Created by Jason Stys; https://github.com/JasonStys. |
 | [vendor/sre/slo.py](vendor/sre/slo.py) | Validate client evidence and calculate exact request-based SLOs. Created by Jason Stys. |
-| [workload/__init__.py](workload/__init__.py) | Dependency-free pod adapter for the pinned SRE analyzer. Created by Jason Stys. |
+| [workload/\_\_init\_\_.py](workload/__init__.py) | Dependency-free pod adapter for the pinned SRE analyzer. Created by Jason Stys. |
 | [workload/server.py](workload/server.py) | Fixed synthetic SRE HTTP workload and exact-owned-service connectivity probe. Jason Stys. |
 
 <!-- END FILE GUIDE -->

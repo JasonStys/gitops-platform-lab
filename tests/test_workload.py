@@ -1,4 +1,4 @@
-"""Real loopback HTTP, fixed-route privacy, bounded server and positive/timeout-only probe tests. Jason Stys."""
+"""Real loopback HTTP, route privacy, bounded server and provisional transport/acknowledgement tests. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
 # definition: test_real_http — line 55
 # variable: server — line 57

@@ -3,7 +3,7 @@
   "checked_at": "2026-10-14T00:55:08Z",
   "repository": "JasonStys/gitops-platform-lab",
   "executable_source_sha": "055222e584c483ad4f195b087e32bd82cb5d0a30",
-  "scope": "Immutable executable-source snapshot. The documentation-only follow-up is verified through the same workflows; current main status is shown by README badges and Actions.",
+  "scope": "Immutable executable-source snapshot. Documentation/tooling follow-ups are verified through the same workflows; current main status is shown by README badges and Actions.",
   "validate": {
     "run_id": 38492293844,
     "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/38492293844",
