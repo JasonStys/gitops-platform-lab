@@ -1,0 +1,134 @@
+# Jason Stys: strict cross-platform tests, native Helm, real isolated Flux/K3s enforcement and security.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: name — line 32
+# parameter: on — line 33
+# parameter: push — line 34
+# parameter: branches — line 35
+# parameter: pull_request — line 36
+# parameter: workflow_dispatch — line 37
+# parameter: permissions — line 38
+# parameter: contents — line 39
+# parameter: concurrency — line 40
+# parameter: group — line 41
+# expression: github.ref — line 41
+# parameter: jobs — line 43
+# parameter: quality — line 44
+# expression: matrix.python — line 45
+# expression: matrix.os — line 45
+# parameter: strategy — line 48
+# parameter: matrix — line 50
+# parameter: include — line 51
+# parameter: steps — line 56
+# parameter: uses — line 57
+# parameter: with — line 58
+# parameter: run — line 63
+# parameter: shell — line 65
+# parameter: if — line 68
+# variable: GITHUB_STEP_SUMMARY — line 70
+# parameter: helm — line 71
+# parameter: cluster — line 84
+# parameter: security — line 110
+# END CODE MAP
+name: Validate
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    name: Python ${{ matrix.python }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-24.04, python: '3.12'}
+          - {os: ubuntu-24.04, python: '3.14'}
+          - {os: windows-latest, python: '3.14'}
+          - {os: macos-15-intel, python: '3.14'}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install --require-hashes -r requirements-dev.lock
+      - name: Strict tests, native loopback HTTP/Git and maintained source maps
+        shell: bash
+        run: bash scripts/validate.sh
+      - name: Summary only, no artifact or cache uploads
+        if: always()
+        shell: bash
+        run: printf '%s\n' 'Counts, branch-inclusive coverage and measured benchmark are in this job log. No private evidence, artifacts or Actions caches uploaded.' >> "$GITHUB_STEP_SUMMARY"
+  helm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14'
+      - run: python -m pip install --require-hashes -r requirements-dev.lock
+      - run: python scripts/bootstrap.py helm-linux
+      - run: python scripts/manifest_check.py
+  cluster:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14'
+      - run: python -m pip install --require-hashes -r requirements-dev.lock
+      - name: Explicit hash-verified tools, no shell installers
+        run: |
+          python scripts/bootstrap.py helm-linux
+          python scripts/bootstrap.py flux-linux
+          python scripts/bootstrap.py k3d-linux
+          python scripts/bootstrap.py kubectl-linux
+          python scripts/scanners.py trivy
+      - name: Real Git promotion, drift, RBAC, network enforcement, admission and Helm rollback
+        run: python scripts/cluster_drill.py --output out/ci-drill --ack-disposable-docker
+      - name: Actual built workload image HIGH/CRITICAL vulnerability gate
+        run: .tools/trivy image --severity HIGH,CRITICAL --exit-code 1 --scanners vuln gitops-sre:lab
+      - name: Synthetic aggregate results in summary only
+        run: |
+          printf '%s\n' 'Ten real disposable-cluster cases passed; failed Helm revision retained, rollback and later Git recovery verified. Workload image scanned. No production deployment, artifact upload or Actions cache.' >> "$GITHUB_STEP_SUMMARY"
+          python -m lab report out/ci-drill/report/drill.json --output out/validated-report
+  security:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14'
+      - run: python -m pip install --require-hashes -r requirements-dev.lock
+      - name: Complete runtime and validation advisory audits
+        run: |
+          python -m pip_audit -r requirements.lock --disable-pip --no-deps
+          python -m pip_audit -r requirements-dev.lock --disable-pip --no-deps
+      - name: Official hash-verified scanners
+        run: |
+          python scripts/scanners.py gitleaks
+          python scripts/scanners.py actionlint
+      - name: Full history secrets and native workflow/shell checks
+        run: |
+          .tools/gitleaks git . --redact --no-banner
+          .tools/actionlint
+          shellcheck scripts/validate.sh

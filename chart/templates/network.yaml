@@ -1,0 +1,36 @@
+# Default deny plus namespace AND pod label ingress allow; runtime has no egress. Jason Stys.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: apiVersion — line 16
+# parameter: kind — line 17
+# parameter: metadata — line 18
+# template-reference: .Release.Namespace — line 18
+# parameter: spec — line 19
+# parameter: podSelector — line 20
+# parameter: policyTypes — line 21
+# parameter: matchLabels — line 28
+# parameter: ingress — line 30
+# parameter: from — line 31
+# parameter: namespaceSelector — line 32
+# parameter: ports — line 36
+# END CODE MAP
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: default-deny, namespace: {{ .Release.Namespace }}}
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: reviewer-ingress, namespace: {{ .Release.Namespace }}}
+spec:
+  podSelector:
+    matchLabels: {app: sre}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: {gitops.platform/client: allowed}
+          podSelector:
+            matchLabels: {role: reviewer}
+      ports: [{protocol: TCP, port: 8080}]

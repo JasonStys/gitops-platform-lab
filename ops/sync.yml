@@ -1,0 +1,33 @@
+# Public HTTPS source template; disposable drill replaces only the owned source URL. Jason Stys.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: apiVersion — line 16
+# parameter: kind — line 17
+# parameter: metadata — line 18
+# parameter: spec — line 19
+# parameter: interval — line 20
+# parameter: url — line 21
+# parameter: ref — line 22
+# parameter: timeout — line 29
+# parameter: prune — line 30
+# parameter: path — line 31
+# parameter: serviceAccountName — line 32
+# parameter: sourceRef — line 33
+# END CODE MAP
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata: {name: platform, namespace: platform-lab}
+spec:
+  interval: 10s
+  url: https://github.com/JasonStys/gitops-platform-lab
+  ref: {branch: main}
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata: {name: platform, namespace: platform-lab}
+spec:
+  interval: 10s
+  timeout: 60s
+  prune: true
+  path: ./gitops
+  serviceAccountName: reconciler
+  sourceRef: {kind: GitRepository, name: platform}

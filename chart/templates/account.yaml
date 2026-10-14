@@ -1,0 +1,12 @@
+# Runtime identity has no RoleBinding and no automatically mounted credential. Jason Stys.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: apiVersion — line 9
+# parameter: kind — line 10
+# parameter: metadata — line 11
+# template-reference: .Release.Namespace — line 11
+# parameter: automountServiceAccountToken — line 12
+# END CODE MAP
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: workload, namespace: {{ .Release.Namespace }}}
+automountServiceAccountToken: false

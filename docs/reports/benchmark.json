@@ -1,0 +1,17 @@
+{
+  "audits_per_batch": 100,
+  "batches": 5,
+  "median_ms_per_audit": 0.561,
+  "os": "Windows",
+  "peak_python_bytes": 31126,
+  "python": "3.14.6",
+  "resources_per_audit": 5,
+  "samples_ms": [
+    0.561,
+    0.594,
+    0.57,
+    0.511,
+    0.536
+  ],
+  "scope": "warm bounded JSON parse and closed Helm policy; excludes cluster, native Helm and network; informational only"
+}

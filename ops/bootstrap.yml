@@ -1,0 +1,115 @@
+# Administrator-only disposable bootstrap, outside the reviewed workload Git path. Jason Stys.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: apiVersion — line 23
+# parameter: kind — line 24
+# parameter: metadata — line 25
+# parameter: name — line 26
+# parameter: labels — line 27
+# parameter: automountServiceAccountToken — line 44
+# parameter: rules — line 54
+# parameter: apiGroups — line 55
+# parameter: resources — line 56
+# parameter: verbs — line 57
+# parameter: subjects — line 62
+# parameter: roleRef — line 63
+# parameter: spec — line 88
+# parameter: podSelector — line 89
+# parameter: policyTypes — line 90
+# parameter: egress — line 91
+# parameter: to — line 92
+# parameter: namespaceSelector — line 93
+# parameter: ports — line 95
+# END CODE MAP
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-lab
+  labels: {pod-security.kubernetes.io/enforce: restricted, pod-security.kubernetes.io/enforce-version: v1.35}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-client
+  labels: {gitops.platform/client: allowed, pod-security.kubernetes.io/enforce: restricted, pod-security.kubernetes.io/enforce-version: v1.35}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-outsider
+  labels: {pod-security.kubernetes.io/enforce: restricted, pod-security.kubernetes.io/enforce-version: v1.35}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: reconciler, namespace: platform-lab}
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: {name: delivery, namespace: platform-lab}
+automountServiceAccountToken: false
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: reconcile-release, namespace: platform-lab}
+rules:
+  - apiGroups: [helm.toolkit.fluxcd.io]
+    resources: [helmreleases]
+    verbs: [get, list, watch, create, update, patch, delete]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: reconcile-release, namespace: platform-lab}
+subjects: [{kind: ServiceAccount, name: reconciler, namespace: platform-lab}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: reconcile-release}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: deliver-workload, namespace: platform-lab}
+rules:
+  - apiGroups: [""]
+    resources: [services, serviceaccounts, secrets, configmaps, pods, events]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [apps]
+    resources: [deployments, replicasets]
+    verbs: [get, list, watch, create, update, patch, delete]
+  - apiGroups: [networking.k8s.io]
+    resources: [networkpolicies]
+    verbs: [get, list, watch, create, update, patch, delete]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: deliver-workload, namespace: platform-lab}
+subjects: [{kind: ServiceAccount, name: delivery, namespace: platform-lab}]
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: deliver-workload}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: probe-egress, namespace: platform-client}
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}
+          podSelector: {matchLabels: {k8s-app: kube-dns}}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: platform-lab}}
+          podSelector: {matchLabels: {app: sre}}
+      ports: [{protocol: TCP, port: 8080}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: probe-egress, namespace: platform-outsider}
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: kube-system}}
+          podSelector: {matchLabels: {k8s-app: kube-dns}}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+    - to:
+        - namespaceSelector: {matchLabels: {kubernetes.io/metadata.name: platform-lab}}
+          podSelector: {matchLabels: {app: sre}}
+      ports: [{protocol: TCP, port: 8080}]

@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["replicas", "image", "readinessPath", "revision"],
+  "properties": {
+    "replicas": {"type":"integer", "minimum":1, "maximum":3},
+    "image": {"const":"gitops-sre:lab"},
+    "readinessPath": {"enum":["/health","/missing"]},
+    "revision": {"enum":["baseline","promoted","broken","recovered"]}
+  }
+}

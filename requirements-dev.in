@@ -1,0 +1,10 @@
+# Exact validation tools plus the complete runtime graph. Created by Jason Stys.
+-r requirements.in
+pytest==9.1.1
+pytest-cov==7.1.0
+hypothesis==6.169.0
+ruff==0.17.0
+mypy==2.4.0
+pip-audit==2.10.1
+types-PyYAML==6.0.12.20260906
+types-jsonschema==4.26.0.20261006

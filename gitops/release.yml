@@ -1,0 +1,47 @@
+# Namespace-scoped Helm delivery with drift repair and final-failure rollback. Jason Stys.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: apiVersion — line 24
+# parameter: kind — line 25
+# parameter: metadata — line 26
+# parameter: spec — line 27
+# parameter: interval — line 28
+# parameter: timeout — line 29
+# parameter: serviceAccountName — line 30
+# parameter: releaseName — line 31
+# parameter: chart — line 32
+# parameter: reconcileStrategy — line 35
+# parameter: sourceRef — line 36
+# parameter: driftDetection — line 38
+# parameter: install — line 39
+# parameter: remediation — line 40
+# parameter: upgrade — line 41
+# parameter: values — line 43
+# parameter: replicas — line 44
+# parameter: image — line 45
+# parameter: readinessPath — line 46
+# parameter: revision — line 47
+# END CODE MAP
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata: {name: sre, namespace: platform-lab}
+spec:
+  interval: 10s
+  timeout: 40s
+  serviceAccountName: delivery
+  releaseName: sre
+  chart:
+    spec:
+      chart: ./chart
+      reconcileStrategy: Revision
+      sourceRef: {kind: GitRepository, name: platform}
+      interval: 10s
+  driftDetection: {mode: enabled}
+  install:
+    remediation: {retries: 1}
+  upgrade:
+    remediation: {retries: 0, remediateLastFailure: true, strategy: rollback}
+  values:
+    replicas: 1
+    image: gitops-sre:lab
+    readinessPath: /health
+    revision: baseline

@@ -1,0 +1,3 @@
+# Exact runtime manifest-validation dependencies. Created by Jason Stys.
+PyYAML==6.0.3
+jsonschema==4.26.0

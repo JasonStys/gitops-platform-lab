@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/JasonStys/sre-observability-workbench",
+  "commit": "3bbe2f4fde0cd82c91ef0946a0c6dd3bed60dc39",
+  "files": {
+    "vendor/sre/__init__.py": "d209ffa930bbcf8e2c8984ce2634f1a2e0c2ec143cb972b45146f4275a859777",
+    "vendor/sre/slo.py": "ae3baa5f00084986b17d7a23ceceea6ac51c3d3e12c64506894b991f14ad9f6c",
+    "vendor/LICENSE": "7bfeff0414583e7de937ae17f9c9a182f1c1a3f9350781b80e4d074d7fde4d48"
+  }
+}

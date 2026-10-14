@@ -1,0 +1,31 @@
+[project]
+name = "gitops-platform-lab"
+version = "1.0.0"
+description = "Disposable, evidence-tested Flux/Helm platform lab by Jason Stys"
+requires-python = ">=3.12"
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["lab", "workload"]
+mypy_path = ["vendor"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+source = ["lab", "workload"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true

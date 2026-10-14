@@ -1,0 +1,58 @@
+{
+  "author": "Jason Stys",
+  "cases": [
+    {
+      "expected_allow": true,
+      "name": "minimum",
+      "passed": true
+    },
+    {
+      "expected_allow": true,
+      "name": "promotion",
+      "passed": true
+    },
+    {
+      "expected_allow": true,
+      "name": "maximum",
+      "passed": true
+    },
+    {
+      "expected_allow": false,
+      "name": "below-quota",
+      "passed": true
+    },
+    {
+      "expected_allow": false,
+      "name": "above-quota",
+      "passed": true
+    },
+    {
+      "expected_allow": false,
+      "name": "boolean-count",
+      "passed": true
+    },
+    {
+      "expected_allow": false,
+      "name": "external-image",
+      "passed": true
+    },
+    {
+      "expected_allow": false,
+      "name": "unknown-setting",
+      "passed": true
+    },
+    {
+      "expected_allow": false,
+      "name": "unknown-revision",
+      "passed": true
+    },
+    {
+      "expected_allow": false,
+      "name": "unknown-path",
+      "passed": true
+    }
+  ],
+  "engine": "native Helm 3.22.0",
+  "live_cluster_enforcement": false,
+  "policy_resources": 5
+}

@@ -1,0 +1,8 @@
+*
+!vendor/
+!vendor/sre/
+!vendor/sre/*.py
+!vendor/LICENSE
+!workload/
+!workload/*.py
+!LICENSE

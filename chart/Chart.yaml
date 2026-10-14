@@ -1,0 +1,15 @@
+# Namespaced educational SRE workload, packaged for real Helm reconciliation. Jason Stys.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: apiVersion — line 10
+# parameter: name — line 11
+# parameter: description — line 12
+# parameter: type — line 13
+# parameter: version — line 14
+# parameter: appVersion — line 15
+# END CODE MAP
+apiVersion: v2
+name: gitops-sre
+description: Synthetic SRE analyzer by Jason Stys, exercised through a disposable GitOps platform
+type: application
+version: 1.0.0
+appVersion: 1.0.0

@@ -1,0 +1,9 @@
+# Reviewed Git path: one HelmRelease, never cluster-scoped bootstrap permissions. Jason Stys.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: apiVersion — line 7
+# parameter: kind — line 8
+# parameter: resources — line 9
+# END CODE MAP
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources: [release.yml]

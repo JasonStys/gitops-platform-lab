@@ -1,0 +1,11 @@
+# Closed lab parameters. The local CI image is built/imported, never remotely pulled. Jason Stys.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: replicas — line 8
+# parameter: image — line 9
+# parameter: readinessPath — line 10
+# parameter: revision — line 11
+# END CODE MAP
+replicas: 1
+image: gitops-sre:lab
+readinessPath: /health
+revision: baseline
