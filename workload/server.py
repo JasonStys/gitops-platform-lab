@@ -1,64 +1,67 @@
 """Fixed synthetic SRE HTTP workload and exact-owned-service connectivity probe. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: TARGET — line 83
-# definition: ProbeFailure — line 86
-# definition: __init__ — line 89
-# parameter: reason — line 89
-# parameter: self — line 89
-# definition: synthetic — line 104
-# variable: events — line 106
-# variable: index — line 108
-# definition: Server — line 117
-# variable: daemon_threads — line 120
-# variable: block_on_close — line 121
-# variable: allow_reuse_address — line 122
-# definition: __init__ — line 124
-# parameter: bind — line 124
-# parameter: port — line 124
-# parameter: self — line 124
-# definition: process_request — line 135
-# parameter: client_address — line 135
-# parameter: request — line 135
-# parameter: self — line 135
-# definition: process_request_thread — line 146
-# parameter: client_address — line 146
-# parameter: request — line 146
-# parameter: self — line 146
-# definition: Handler — line 154
-# variable: server — line 157
-# definition: setup — line 159
-# parameter: self — line 159
-# definition: log_message — line 164
-# parameter: args — line 164
-# parameter: format — line 164
+# variable: TARGET — line 88
+# definition: ProbeFailure — line 91
+# definition: __init__ — line 94
+# parameter: reason — line 94
+# parameter: self — line 94
+# definition: synthetic — line 109
+# variable: events — line 111
+# variable: index — line 113
+# definition: Server — line 122
+# variable: daemon_threads — line 125
+# variable: block_on_close — line 126
+# variable: allow_reuse_address — line 127
+# definition: __init__ — line 129
+# parameter: bind — line 129
+# parameter: port — line 129
+# parameter: self — line 129
+# definition: process_request — line 140
+# parameter: client_address — line 140
+# parameter: request — line 140
+# parameter: self — line 140
+# definition: process_request_thread — line 151
+# parameter: client_address — line 151
+# parameter: request — line 151
+# parameter: self — line 151
+# definition: Handler — line 159
+# variable: server — line 162
+# definition: setup — line 164
 # parameter: self — line 164
-# definition: send_error — line 167
-# parameter: code — line 168
-# parameter: explain — line 168
-# parameter: message — line 168
-# parameter: self — line 168
-# definition: reply — line 173
+# definition: log_message — line 169
+# parameter: args — line 169
+# parameter: format — line 169
+# parameter: self — line 169
+# definition: send_error — line 172
 # parameter: code — line 173
-# parameter: data — line 173
+# parameter: explain — line 173
+# parameter: message — line 173
 # parameter: self — line 173
-# variable: body — line 175
-# definition: do_GET — line 190
-# parameter: self — line 190
-# definition: probe — line 200
-# parameter: expect — line 200
-# variable: opener — line 204
-# variable: response — line 206
-# variable: outcome — line 214
-# variable: reason — line 218
-# variable: reason — line 220
-# variable: reason — line 227
-# variable: reason — line 229
-# variable: outcome — line 231
-# variable: outcome — line 233
-# definition: main — line 242
-# variable: parser — line 244
-# variable: args — line 247
-# variable: server — line 252
+# definition: reply — line 178
+# parameter: code — line 178
+# parameter: data — line 178
+# parameter: self — line 178
+# variable: body — line 180
+# definition: do_GET — line 195
+# parameter: self — line 195
+# definition: probe — line 205
+# parameter: expect — line 205
+# variable: opener — line 209
+# variable: response — line 211
+# variable: outcome — line 219
+# variable: reason — line 223
+# variable: reason — line 225
+# variable: reason — line 232
+# variable: reason — line 234
+# variable: outcome — line 236
+# variable: outcome — line 238
+# definition: main — line 247
+# variable: parser — line 249
+# variable: args — line 253
+# variable: server — line 258
+# definition: emit — line 272
+# parameter: data — line 272
+# parameter: hold — line 272
 # END CODE MAP
 
 from __future__ import annotations
@@ -67,6 +70,8 @@ import argparse
 import errno
 import http.client
 import json
+import os
+import signal
 import socket
 import sys
 import threading
@@ -244,25 +249,33 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Synthetic SRE adapter — Jason Stys")
     parser.add_argument("--probe", choices=["allow", "deny"])
     parser.add_argument("--pod", action="store_true")
+    parser.add_argument("--hold-observation", action="store_true")
     args = parser.parse_args()
     try:
         if args.probe:
-            print(json.dumps(probe(args.probe), sort_keys=True))
+            emit(probe(args.probe), args.hold_observation)
         else:
             with Server("0.0.0.0" if args.pod else "127.0.0.1", 8080) as server:
                 server.serve_forever()
     except ProbeFailure as error:
-        print(
-            json.dumps(
-                {"error": "owned workload check failed", "reason": error.reason},
-                sort_keys=True,
-            )
+        emit(
+            {"error": "owned workload check failed", "reason": error.reason},
+            args.hold_observation,
         )
         return 1
     except (ValueError, OSError, http.client.HTTPException):
         print('{"error":"owned workload check failed"}')
         return 1
     return 0
+
+
+def emit(data: dict[str, str], hold: bool) -> None:
+    """Flush a fixed receipt; explicit Linux-pod observation pauses until the owned host resumes PID 1."""
+    print(json.dumps(data, sort_keys=True), flush=True)
+    if hold:
+        if not hasattr(signal, "SIGSTOP"):
+            raise ValueError("observation requires Linux pod")
+        os.kill(os.getpid(), signal.SIGSTOP)
 
 
 if __name__ == "__main__":

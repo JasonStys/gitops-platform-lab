@@ -1,36 +1,39 @@
 """Real loopback HTTP, fixed-route privacy, bounded server and positive/timeout-only probe tests. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: test_real_http — line 51
-# variable: server — line 53
-# variable: thread — line 54
-# variable: path — line 57
-# variable: status — line 57
-# variable: connection — line 63
-# variable: response — line 67
-# variable: body — line 68
-# variable: connection — line 74
-# variable: response — line 78
-# definition: test_bind_contract — line 92
-# parameter: bind — line 92
-# parameter: port — line 92
-# definition: test_slots_and_disconnected_peer — line 98
-# variable: server — line 100
-# variable: _ — line 101
-# variable: shutdown — line 102
-# variable: _ — line 105
-# variable: _ — line 112
-# variable: _ — line 113
-# variable: handler — line 115
-# definition: test_denial_is_timeout_only — line 127
-# parameter: failure — line 127
-# definition: test_probe_non_timeout_and_response — line 135
-# variable: response — line 143
-# definition: test_main_and_analyzer — line 164
-# definition: test_safe_transport_diagnostics — line 183
-# parameter: error — line 183
-# parameter: reason — line 183
-# variable: failure — line 188
-# variable: server — line 203
+# definition: test_real_http — line 54
+# variable: server — line 56
+# variable: thread — line 57
+# variable: path — line 60
+# variable: status — line 60
+# variable: connection — line 66
+# variable: response — line 70
+# variable: body — line 71
+# variable: connection — line 77
+# variable: response — line 81
+# definition: test_bind_contract — line 95
+# parameter: bind — line 95
+# parameter: port — line 95
+# definition: test_slots_and_disconnected_peer — line 101
+# variable: server — line 103
+# variable: _ — line 104
+# variable: shutdown — line 105
+# variable: _ — line 108
+# variable: _ — line 115
+# variable: _ — line 116
+# variable: handler — line 118
+# definition: test_denial_is_timeout_only — line 130
+# parameter: failure — line 130
+# definition: test_probe_non_timeout_and_response — line 138
+# variable: response — line 146
+# definition: test_main_and_analyzer — line 167
+# definition: test_safe_transport_diagnostics — line 186
+# parameter: error — line 186
+# parameter: reason — line 186
+# variable: failure — line 191
+# variable: server — line 206
+# definition: test_observation_receipt — line 211
+# parameter: monkeypatch — line 211
+# variable: kill — line 216
 # END CODE MAP
 
 from __future__ import annotations
@@ -45,7 +48,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from workload.server import Handler, ProbeFailure, Server, main, probe, synthetic
+from workload.server import Handler, ProbeFailure, Server, emit, main, probe, synthetic
 
 
 def test_real_http() -> None:
@@ -203,3 +206,16 @@ def test_safe_transport_diagnostics(error: Exception, reason: str) -> None:
     with patch("sys.argv", ["server"]), patch("workload.server.Server") as server:
         server.return_value.__enter__.return_value.serve_forever.return_value = None
         assert main() == 0
+
+
+def test_observation_receipt(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Observation is opt-in and uses only a fixed self-stop signal, not remote code or a shell."""
+    import signal
+
+    monkeypatch.setattr(signal, "SIGSTOP", 19, raising=False)
+    with patch("os.kill") as kill:
+        emit({"outcome": "test-fixture"}, True)
+        kill.assert_called_once()
+    monkeypatch.delattr(signal, "SIGSTOP")
+    with pytest.raises(ValueError):
+        emit({"outcome": "test-fixture"}, True)
