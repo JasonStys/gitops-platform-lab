@@ -1,67 +1,71 @@
 """Fixed synthetic SRE HTTP workload and exact-owned-service connectivity probe. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: TARGET — line 88
-# definition: ProbeFailure — line 91
-# definition: __init__ — line 94
-# parameter: reason — line 94
-# parameter: self — line 94
-# definition: synthetic — line 109
-# variable: events — line 111
-# variable: index — line 113
-# definition: Server — line 122
-# variable: daemon_threads — line 125
-# variable: block_on_close — line 126
-# variable: allow_reuse_address — line 127
-# definition: __init__ — line 129
-# parameter: bind — line 129
-# parameter: port — line 129
-# parameter: self — line 129
-# definition: process_request — line 140
-# parameter: client_address — line 140
-# parameter: request — line 140
-# parameter: self — line 140
-# definition: process_request_thread — line 151
-# parameter: client_address — line 151
-# parameter: request — line 151
-# parameter: self — line 151
-# definition: Handler — line 159
-# variable: server — line 162
-# definition: setup — line 164
-# parameter: self — line 164
-# definition: log_message — line 169
-# parameter: args — line 169
-# parameter: format — line 169
-# parameter: self — line 169
-# definition: send_error — line 172
-# parameter: code — line 173
-# parameter: explain — line 173
-# parameter: message — line 173
-# parameter: self — line 173
-# definition: reply — line 178
-# parameter: code — line 178
-# parameter: data — line 178
-# parameter: self — line 178
-# variable: body — line 180
-# definition: do_GET — line 195
-# parameter: self — line 195
-# definition: probe — line 205
-# parameter: expect — line 205
-# variable: opener — line 209
-# variable: response — line 211
-# variable: outcome — line 219
-# variable: reason — line 223
-# variable: reason — line 225
-# variable: reason — line 232
-# variable: reason — line 234
-# variable: outcome — line 236
-# variable: outcome — line 238
-# definition: main — line 247
-# variable: parser — line 249
-# variable: args — line 253
-# variable: server — line 258
-# definition: emit — line 272
-# parameter: data — line 272
-# parameter: hold — line 272
+# variable: TARGET — line 91
+# definition: ProbeFailure — line 94
+# definition: __init__ — line 97
+# parameter: reason — line 97
+# parameter: self — line 97
+# definition: synthetic — line 112
+# variable: events — line 114
+# variable: index — line 116
+# definition: Server — line 125
+# variable: daemon_threads — line 128
+# variable: block_on_close — line 129
+# variable: allow_reuse_address — line 130
+# definition: __init__ — line 132
+# parameter: bind — line 132
+# parameter: port — line 132
+# parameter: self — line 132
+# definition: process_request — line 143
+# parameter: client_address — line 143
+# parameter: request — line 143
+# parameter: self — line 143
+# definition: process_request_thread — line 154
+# parameter: client_address — line 154
+# parameter: request — line 154
+# parameter: self — line 154
+# definition: Handler — line 162
+# variable: server — line 165
+# definition: setup — line 167
+# parameter: self — line 167
+# definition: log_message — line 172
+# parameter: args — line 172
+# parameter: format — line 172
+# parameter: self — line 172
+# definition: send_error — line 175
+# parameter: code — line 176
+# parameter: explain — line 176
+# parameter: message — line 176
+# parameter: self — line 176
+# definition: reply — line 181
+# parameter: code — line 181
+# parameter: data — line 181
+# parameter: self — line 181
+# variable: body — line 183
+# definition: do_GET — line 198
+# parameter: self — line 198
+# definition: probe — line 208
+# parameter: expect — line 208
+# variable: opener — line 212
+# variable: response — line 214
+# variable: outcome — line 222
+# variable: reason — line 226
+# variable: reason — line 228
+# variable: reason — line 235
+# variable: reason — line 237
+# variable: outcome — line 239
+# variable: outcome — line 241
+# definition: main — line 250
+# variable: parser — line 252
+# variable: args — line 256
+# variable: server — line 261
+# definition: emit — line 275
+# parameter: data — line 275
+# parameter: hold — line 275
+# variable: released — line 282
+# variable: prior — line 283
+# parameter: _frame — line 284
+# parameter: _number — line 284
 # END CODE MAP
 
 from __future__ import annotations
@@ -70,7 +74,6 @@ import argparse
 import errno
 import http.client
 import json
-import os
 import signal
 import socket
 import sys
@@ -270,12 +273,21 @@ def main() -> int:
 
 
 def emit(data: dict[str, str], hold: bool) -> None:
-    """Flush a fixed receipt; explicit Linux-pod observation pauses until the owned host resumes PID 1."""
-    print(json.dumps(data, sort_keys=True), flush=True)
-    if hold:
-        if not hasattr(signal, "SIGSTOP"):
-            raise ValueError("observation requires Linux pod")
-        os.kill(os.getpid(), signal.SIGSTOP)
+    """Flush a receipt after registering a bounded SIGUSR1 acknowledgement; PID 1 cannot rely on SIGSTOP."""
+    if not hold:
+        print(json.dumps(data, sort_keys=True), flush=True)
+        return
+    if not hasattr(signal, "SIGUSR1"):
+        raise ValueError("observation requires Linux pod")
+    released = threading.Event()
+    prior = signal.getsignal(signal.SIGUSR1)
+    signal.signal(signal.SIGUSR1, lambda _number, _frame: released.set())
+    try:
+        print(json.dumps(data, sort_keys=True), flush=True)
+        if not released.wait(30):
+            raise ValueError("observation acknowledgement deadline")
+    finally:
+        signal.signal(signal.SIGUSR1, prior)
 
 
 if __name__ == "__main__":

@@ -368,7 +368,7 @@ class Drill:
             },
             "spec": {
                 "restartPolicy": "Never",
-                "activeDeadlineSeconds": 20,
+                "activeDeadlineSeconds": 60,
                 "automountServiceAccountToken": False,
                 "securityContext": {
                     "runAsNonRoot": True,
@@ -425,7 +425,7 @@ class Drill:
             "--",
             "python",
             "-c",
-            "import os,signal; os.kill(1,signal.SIGCONT)",
+            "import os,signal; os.kill(1,signal.SIGUSR1)",
         )
         self.wait(
             lambda: (

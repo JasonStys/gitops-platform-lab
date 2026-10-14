@@ -1,39 +1,40 @@
 """Real loopback HTTP, fixed-route privacy, bounded server and positive/timeout-only probe tests. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: test_real_http — line 54
-# variable: server — line 56
-# variable: thread — line 57
-# variable: path — line 60
-# variable: status — line 60
-# variable: connection — line 66
-# variable: response — line 70
-# variable: body — line 71
-# variable: connection — line 77
-# variable: response — line 81
-# definition: test_bind_contract — line 95
-# parameter: bind — line 95
-# parameter: port — line 95
-# definition: test_slots_and_disconnected_peer — line 101
-# variable: server — line 103
-# variable: _ — line 104
-# variable: shutdown — line 105
-# variable: _ — line 108
-# variable: _ — line 115
+# definition: test_real_http — line 55
+# variable: server — line 57
+# variable: thread — line 58
+# variable: path — line 61
+# variable: status — line 61
+# variable: connection — line 67
+# variable: response — line 71
+# variable: body — line 72
+# variable: connection — line 78
+# variable: response — line 82
+# definition: test_bind_contract — line 96
+# parameter: bind — line 96
+# parameter: port — line 96
+# definition: test_slots_and_disconnected_peer — line 102
+# variable: server — line 104
+# variable: _ — line 105
+# variable: shutdown — line 106
+# variable: _ — line 109
 # variable: _ — line 116
-# variable: handler — line 118
-# definition: test_denial_is_timeout_only — line 130
-# parameter: failure — line 130
-# definition: test_probe_non_timeout_and_response — line 138
-# variable: response — line 146
-# definition: test_main_and_analyzer — line 167
-# definition: test_safe_transport_diagnostics — line 186
-# parameter: error — line 186
-# parameter: reason — line 186
-# variable: failure — line 191
-# variable: server — line 206
-# definition: test_observation_receipt — line 211
-# parameter: monkeypatch — line 211
-# variable: kill — line 216
+# variable: _ — line 117
+# variable: handler — line 119
+# definition: test_denial_is_timeout_only — line 131
+# parameter: failure — line 131
+# definition: test_probe_non_timeout_and_response — line 139
+# variable: response — line 147
+# definition: test_main_and_analyzer — line 168
+# definition: test_safe_transport_diagnostics — line 187
+# parameter: error — line 187
+# parameter: reason — line 187
+# variable: failure — line 192
+# variable: server — line 207
+# definition: test_observation_receipt — line 212
+# parameter: monkeypatch — line 212
+# variable: registration — line 219
+# variable: gate — line 220
 # END CODE MAP
 
 from __future__ import annotations
@@ -209,13 +210,22 @@ def test_safe_transport_diagnostics(error: Exception, reason: str) -> None:
 
 
 def test_observation_receipt(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Observation is opt-in and uses only a fixed self-stop signal, not remote code or a shell."""
+    """Observation registers a fixed acknowledgement handler before flushing, times out and restores it."""
     import signal
 
-    monkeypatch.setattr(signal, "SIGSTOP", 19, raising=False)
-    with patch("os.kill") as kill:
+    monkeypatch.setattr(signal, "SIGUSR1", 10, raising=False)
+    with (
+        patch("signal.getsignal", return_value=signal.SIG_DFL),
+        patch("signal.signal") as registration,
+        patch("threading.Event") as gate,
+    ):
+        gate.return_value.wait.return_value = True
         emit({"outcome": "test-fixture"}, True)
-        kill.assert_called_once()
-    monkeypatch.delattr(signal, "SIGSTOP")
+        assert registration.call_count == 2
+        gate.return_value.wait.assert_called_once_with(30)
+        gate.return_value.wait.return_value = False
+        with pytest.raises(ValueError):
+            emit({"outcome": "test-fixture"}, True)
+    monkeypatch.delattr(signal, "SIGUSR1")
     with pytest.raises(ValueError):
         emit({"outcome": "test-fixture"}, True)
