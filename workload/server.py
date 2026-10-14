@@ -1,74 +1,78 @@
 """Fixed synthetic SRE HTTP workload and exact-owned-service connectivity probe. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: TARGET — line 94
-# definition: ProbeFailure — line 97
-# definition: __init__ — line 100
-# parameter: reason — line 100
-# parameter: self — line 100
-# definition: synthetic — line 115
-# variable: events — line 117
-# variable: index — line 119
-# definition: Server — line 128
-# variable: daemon_threads — line 131
-# variable: block_on_close — line 132
-# variable: allow_reuse_address — line 133
-# definition: __init__ — line 135
-# parameter: bind — line 135
-# parameter: port — line 135
-# parameter: self — line 135
-# definition: process_request — line 146
-# parameter: client_address — line 146
-# parameter: request — line 146
-# parameter: self — line 146
-# definition: process_request_thread — line 157
-# parameter: client_address — line 157
-# parameter: request — line 157
-# parameter: self — line 157
-# definition: Handler — line 165
-# variable: server — line 168
-# definition: setup — line 170
-# parameter: self — line 170
-# definition: log_message — line 175
-# parameter: args — line 175
-# parameter: format — line 175
+# variable: TARGET — line 99
+# definition: ProbeFailure — line 102
+# definition: __init__ — line 105
+# parameter: reason — line 105
+# parameter: self — line 105
+# definition: synthetic — line 120
+# variable: events — line 122
+# variable: index — line 124
+# definition: Server — line 133
+# variable: daemon_threads — line 136
+# variable: block_on_close — line 137
+# variable: allow_reuse_address — line 138
+# definition: __init__ — line 140
+# parameter: bind — line 140
+# parameter: port — line 140
+# parameter: self — line 140
+# definition: process_request — line 151
+# parameter: client_address — line 151
+# parameter: request — line 151
+# parameter: self — line 151
+# definition: process_request_thread — line 162
+# parameter: client_address — line 162
+# parameter: request — line 162
+# parameter: self — line 162
+# definition: Handler — line 170
+# variable: server — line 173
+# definition: setup — line 175
 # parameter: self — line 175
-# definition: send_error — line 178
-# parameter: code — line 179
-# parameter: explain — line 179
-# parameter: message — line 179
-# parameter: self — line 179
-# definition: reply — line 184
+# definition: log_message — line 180
+# parameter: args — line 180
+# parameter: format — line 180
+# parameter: self — line 180
+# definition: send_error — line 183
 # parameter: code — line 184
-# parameter: data — line 184
+# parameter: explain — line 184
+# parameter: message — line 184
 # parameter: self — line 184
-# variable: body — line 186
-# definition: do_GET — line 201
-# parameter: self — line 201
-# definition: probe — line 211
-# parameter: expect — line 211
-# variable: opener — line 215
-# variable: response — line 217
-# variable: outcome — line 225
-# variable: reason — line 226
-# variable: reason — line 230
-# variable: reason — line 232
-# variable: reason — line 239
-# variable: reason — line 241
-# variable: reason — line 245
-# variable: outcome — line 246
-# variable: outcome — line 248
-# variable: reason — line 249
-# definition: main — line 258
-# variable: parser — line 260
-# variable: args — line 264
-# variable: server — line 269
-# definition: emit — line 283
-# parameter: data — line 283
-# parameter: hold — line 283
-# variable: released — line 290
-# variable: prior — line 291
-# parameter: _frame — line 292
-# parameter: _number — line 292
+# definition: reply — line 189
+# parameter: code — line 189
+# parameter: data — line 189
+# parameter: self — line 189
+# variable: body — line 191
+# definition: do_GET — line 206
+# parameter: self — line 206
+# definition: probe — line 216
+# parameter: expect — line 216
+# variable: opener — line 220
+# variable: response — line 222
+# variable: outcome — line 230
+# variable: reason — line 231
+# variable: reason — line 235
+# variable: reason — line 237
+# variable: reason — line 244
+# variable: reason — line 246
+# variable: reason — line 250
+# variable: outcome — line 251
+# variable: outcome — line 253
+# variable: reason — line 254
+# definition: main — line 263
+# variable: parser — line 265
+# variable: args — line 269
+# variable: server — line 274
+# definition: converge — line 288
+# parameter: expect — line 288
+# variable: attempt — line 290
+# variable: observation — line 292
+# definition: emit — line 306
+# parameter: data — line 306
+# parameter: hold — line 306
+# variable: released — line 313
+# variable: prior — line 314
+# parameter: _frame — line 315
+# parameter: _number — line 315
 # END CODE MAP
 
 from __future__ import annotations
@@ -81,6 +85,7 @@ import signal
 import socket
 import sys
 import threading
+import time
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -264,7 +269,7 @@ def main() -> int:
     args = parser.parse_args()
     try:
         if args.probe:
-            emit(probe(args.probe), args.hold_observation)
+            emit(converge(args.probe), args.hold_observation)
         else:
             with Server("0.0.0.0" if args.pod else "127.0.0.1", 8080) as server:
                 server.serve_forever()
@@ -280,7 +285,25 @@ def main() -> int:
     return 0
 
 
-def emit(data: dict[str, str], hold: bool) -> None:
+def converge(expect: str) -> dict[str, Any]:
+    """Disclose bounded new-pod policy onboarding; only eligible blocked positive controls settle, never denials."""
+    for attempt in range(1, 7):
+        try:
+            observation = probe(expect)
+        except ProbeFailure as error:
+            if (
+                expect != "allow"
+                or error.reason != "expectation-mismatch"
+                or attempt == 6
+            ):
+                raise
+            time.sleep(0.5)
+        else:
+            return {**observation, "convergence_attempts": attempt}
+    raise ValueError("unreachable convergence state")
+
+
+def emit(data: dict[str, Any], hold: bool) -> None:
     """Flush a receipt after registering a bounded SIGUSR1 acknowledgement; PID 1 cannot rely on SIGSTOP."""
     if not hold:
         print(json.dumps(data, sort_keys=True), flush=True)

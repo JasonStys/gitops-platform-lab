@@ -1,40 +1,46 @@
 """Real loopback HTTP, route privacy, bounded server and provisional transport/acknowledgement tests. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: test_real_http — line 55
-# variable: server — line 57
-# variable: thread — line 58
-# variable: path — line 61
-# variable: status — line 61
-# variable: connection — line 67
-# variable: response — line 71
-# variable: body — line 72
-# variable: connection — line 78
-# variable: response — line 82
-# definition: test_bind_contract — line 96
-# parameter: bind — line 96
-# parameter: port — line 96
-# definition: test_slots_and_disconnected_peer — line 102
-# variable: server — line 104
-# variable: _ — line 105
-# variable: shutdown — line 106
-# variable: _ — line 109
-# variable: _ — line 116
-# variable: _ — line 117
-# variable: handler — line 119
-# definition: test_timeout_is_provisional — line 131
-# parameter: failure — line 131
-# definition: test_probe_non_timeout_and_response — line 139
-# variable: response — line 146
-# definition: test_main_and_analyzer — line 167
-# definition: test_safe_transport_diagnostics — line 186
-# parameter: error — line 186
-# parameter: reason — line 186
-# variable: failure — line 194
-# variable: server — line 211
-# definition: test_observation_receipt — line 216
-# parameter: monkeypatch — line 216
-# variable: registration — line 223
-# variable: gate — line 224
+# definition: test_real_http — line 70
+# variable: server — line 72
+# variable: thread — line 73
+# variable: path — line 76
+# variable: status — line 76
+# variable: connection — line 82
+# variable: response — line 86
+# variable: body — line 87
+# variable: connection — line 93
+# variable: response — line 97
+# definition: test_bind_contract — line 111
+# parameter: bind — line 111
+# parameter: port — line 111
+# definition: test_slots_and_disconnected_peer — line 117
+# variable: server — line 119
+# variable: _ — line 120
+# variable: shutdown — line 121
+# variable: _ — line 124
+# variable: _ — line 131
+# variable: _ — line 132
+# variable: handler — line 134
+# definition: test_timeout_is_provisional — line 146
+# parameter: failure — line 146
+# definition: test_probe_non_timeout_and_response — line 154
+# variable: response — line 161
+# definition: test_main_and_analyzer — line 182
+# definition: test_safe_transport_diagnostics — line 201
+# parameter: error — line 201
+# parameter: reason — line 201
+# variable: failure — line 209
+# variable: server — line 226
+# definition: test_observation_receipt — line 231
+# parameter: monkeypatch — line 231
+# variable: registration — line 238
+# variable: gate — line 239
+# definition: test_positive_policy_onboarding — line 253
+# variable: calls — line 262
+# variable: count — line 267
+# variable: expected — line 267
+# variable: reason — line 267
+# variable: calls — line 274
 # END CODE MAP
 
 from __future__ import annotations
@@ -49,7 +55,16 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from workload.server import Handler, ProbeFailure, Server, emit, main, probe, synthetic
+from workload.server import (
+    Handler,
+    ProbeFailure,
+    Server,
+    converge,
+    emit,
+    main,
+    probe,
+    synthetic,
+)
 
 
 def test_real_http() -> None:
@@ -233,3 +248,32 @@ def test_observation_receipt(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delattr(signal, "SIGUSR1")
     with pytest.raises(ValueError):
         emit({"outcome": "test-fixture"}, True)
+
+
+def test_positive_policy_onboarding() -> None:
+    """Onboarding is bounded and disclosed; malformed/DNS errors and denials are never retried."""
+    with (
+        patch(
+            "workload.server.probe",
+            side_effect=[
+                ProbeFailure("expectation-mismatch"),
+                {"outcome": "allowed", "reason": "http-200"},
+            ],
+        ) as calls,
+        patch("time.sleep"),
+    ):
+        assert converge("allow")["convergence_attempts"] == 2
+        assert calls.call_count == 2
+    for expected, reason, count in (
+        ("allow", "expectation-mismatch", 6),
+        ("deny", "expectation-mismatch", 1),
+        ("allow", "dns-failure", 1),
+        ("allow", "unexpected-response", 1),
+    ):
+        with (
+            patch("workload.server.probe", side_effect=ProbeFailure(reason)) as calls,
+            patch("time.sleep"),
+        ):
+            with pytest.raises(ProbeFailure):
+                converge(expected)
+            assert calls.call_count == count

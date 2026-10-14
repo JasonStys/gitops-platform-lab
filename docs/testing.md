@@ -9,6 +9,7 @@ Author: Jason Stys. Unit fixtures are synthetic; live enforcement claims require
 | Incorrect permission/network assumptions | Actual impersonated can-i matrix, CNI counter-confirmed denial with positive controls and explicit server-side restricted PSA rejection |
 | Git/controller drift or bad readiness | Actual scratch commits with observed exact revision, replica drift repair, current Helm/Deployment conditions and retained failed/rollback history |
 | Dead-service false denial | Eligible transport plus new scoped policy REJECT packets, successful probe exit and exact HTTP-200 controls before/after; zero/stale counters and DNS errors fail |
+| New-Pod policy onboarding | Bounded positive convergence with disclosed attempt count; permanent blockage, malformed responses and DNS errors fail; negative observations never retry |
 | Report/privacy mistakes | Incomplete/duplicate/FAIL suite rejection, closed aggregate fields, private-input nondisclosure, escaped inert HTML and no overwrites |
 | Workload/parser behavior | Real loopback HTTP, pinned actual SRE analyzer, bounded server slots and supported smart-HTTP shallow Git clone/write endpoint denials |
 | Supply chain/workflow | Full hash-locked dependency audits, Gitleaks history, native actionlint/ShellCheck, actual built image HIGH/CRITICAL scan, security-extended CodeQL |
