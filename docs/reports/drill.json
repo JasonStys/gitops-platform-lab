@@ -1,0 +1,115 @@
+{
+  "author": "Jason Stys",
+  "built_image_id": "201849adcd52842a645901824621f26430692f8520d16ff2b5768ff68dd5f179",
+  "checks": [
+    {
+      "duration_ms": 68372,
+      "evidence": {
+        "control_plane": "private-loopback",
+        "git_commit": "98ec6adc8120970111bdb9f1bb125c26a856de08",
+        "image_pull": "Never",
+        "ready_replicas": 1
+      },
+      "name": "bootstrap",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 14585,
+      "evidence": {
+        "git_commit": "8794f28e9544cc81ac89df57a0dc753e5901331d",
+        "ready_replicas": 2
+      },
+      "name": "git_promotion",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 12475,
+      "evidence": {
+        "injected_replicas": 3,
+        "restored_replicas": 2
+      },
+      "name": "drift_repair",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 181,
+      "evidence": {
+        "assertions": 6,
+        "cross_namespace_delivery": false,
+        "runtime_secret_access": false
+      },
+      "name": "namespace_rbac",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 8973,
+      "evidence": {
+        "outcome": "allowed",
+        "positive_control_after": true,
+        "reason": "http-200",
+        "reject_packets_after": 0,
+        "reject_packets_before": 0
+      },
+      "name": "allowed_traffic",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 11187,
+      "evidence": {
+        "outcome": "blocked",
+        "positive_control_after": true,
+        "reason": "connection-refused",
+        "reject_packets_after": 1,
+        "reject_packets_before": 0
+      },
+      "name": "blocked_pod_label",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 9234,
+      "evidence": {
+        "outcome": "blocked",
+        "positive_control_after": true,
+        "reason": "connection-refused",
+        "reject_packets_after": 1,
+        "reject_packets_before": 0
+      },
+      "name": "blocked_namespace",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 595,
+      "evidence": {
+        "privileged_created": false,
+        "server_dry_run": true
+      },
+      "name": "psa_rejection",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 59585,
+      "evidence": {
+        "failed_revision_retained": true,
+        "git_commit": "648a21608c875af603a60c8c970a618097db2d22",
+        "healthy_service_after": true,
+        "reason": "RollbackSucceeded"
+      },
+      "name": "failed_release_rollback",
+      "result": "PASS"
+    },
+    {
+      "duration_ms": 56239,
+      "evidence": {
+        "git_commit": "0f8e5868e43113305799e0fc336e678ca4157e5c",
+        "ready_replicas": 2
+      },
+      "name": "git_recovery_commit",
+      "result": "PASS"
+    }
+  ],
+  "cluster": "disposable-k3d",
+  "schema": 1,
+  "source_sha": "055222e584c483ad4f195b087e32bd82cb5d0a30",
+  "synthetic": true,
+  "workload_source_sha": "3bbe2f4fde0cd82c91ef0946a0c6dd3bed60dc39"
+}

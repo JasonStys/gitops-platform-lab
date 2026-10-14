@@ -1,0 +1,115 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'"><title>GitOps Platform Lab — Jason Stys</title><h1>GitOps Platform Lab</h1><p>Created by Jason Stys · github.com/JasonStys · LinkedIn: jason-stys-31b30b351</p><p>Measured synthetic disposable-cluster exercise. Not production authorization or a universal security guarantee.</p><table><caption>Observed checks and duration in milliseconds</caption><tr><th>Scenario</th><th>Result</th><th>Duration</th></tr><tr><td>bootstrap</td><td>PASS</td><td>68372</td></tr><tr><td>git_promotion</td><td>PASS</td><td>14585</td></tr><tr><td>drift_repair</td><td>PASS</td><td>12475</td></tr><tr><td>namespace_rbac</td><td>PASS</td><td>181</td></tr><tr><td>allowed_traffic</td><td>PASS</td><td>8973</td></tr><tr><td>blocked_pod_label</td><td>PASS</td><td>11187</td></tr><tr><td>blocked_namespace</td><td>PASS</td><td>9234</td></tr><tr><td>psa_rejection</td><td>PASS</td><td>595</td></tr><tr><td>failed_release_rollback</td><td>PASS</td><td>59585</td></tr><tr><td>git_recovery_commit</td><td>PASS</td><td>56239</td></tr></table><h2>Aggregate evidence</h2><pre>{
+  &quot;author&quot;: &quot;Jason Stys&quot;,
+  &quot;built_image_id&quot;: &quot;201849adcd52842a645901824621f26430692f8520d16ff2b5768ff68dd5f179&quot;,
+  &quot;checks&quot;: [
+    {
+      &quot;duration_ms&quot;: 68372,
+      &quot;evidence&quot;: {
+        &quot;control_plane&quot;: &quot;private-loopback&quot;,
+        &quot;git_commit&quot;: &quot;98ec6adc8120970111bdb9f1bb125c26a856de08&quot;,
+        &quot;image_pull&quot;: &quot;Never&quot;,
+        &quot;ready_replicas&quot;: 1
+      },
+      &quot;name&quot;: &quot;bootstrap&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 14585,
+      &quot;evidence&quot;: {
+        &quot;git_commit&quot;: &quot;8794f28e9544cc81ac89df57a0dc753e5901331d&quot;,
+        &quot;ready_replicas&quot;: 2
+      },
+      &quot;name&quot;: &quot;git_promotion&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 12475,
+      &quot;evidence&quot;: {
+        &quot;injected_replicas&quot;: 3,
+        &quot;restored_replicas&quot;: 2
+      },
+      &quot;name&quot;: &quot;drift_repair&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 181,
+      &quot;evidence&quot;: {
+        &quot;assertions&quot;: 6,
+        &quot;cross_namespace_delivery&quot;: false,
+        &quot;runtime_secret_access&quot;: false
+      },
+      &quot;name&quot;: &quot;namespace_rbac&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 8973,
+      &quot;evidence&quot;: {
+        &quot;outcome&quot;: &quot;allowed&quot;,
+        &quot;positive_control_after&quot;: true,
+        &quot;reason&quot;: &quot;http-200&quot;,
+        &quot;reject_packets_after&quot;: 0,
+        &quot;reject_packets_before&quot;: 0
+      },
+      &quot;name&quot;: &quot;allowed_traffic&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 11187,
+      &quot;evidence&quot;: {
+        &quot;outcome&quot;: &quot;blocked&quot;,
+        &quot;positive_control_after&quot;: true,
+        &quot;reason&quot;: &quot;connection-refused&quot;,
+        &quot;reject_packets_after&quot;: 1,
+        &quot;reject_packets_before&quot;: 0
+      },
+      &quot;name&quot;: &quot;blocked_pod_label&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 9234,
+      &quot;evidence&quot;: {
+        &quot;outcome&quot;: &quot;blocked&quot;,
+        &quot;positive_control_after&quot;: true,
+        &quot;reason&quot;: &quot;connection-refused&quot;,
+        &quot;reject_packets_after&quot;: 1,
+        &quot;reject_packets_before&quot;: 0
+      },
+      &quot;name&quot;: &quot;blocked_namespace&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 595,
+      &quot;evidence&quot;: {
+        &quot;privileged_created&quot;: false,
+        &quot;server_dry_run&quot;: true
+      },
+      &quot;name&quot;: &quot;psa_rejection&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 59585,
+      &quot;evidence&quot;: {
+        &quot;failed_revision_retained&quot;: true,
+        &quot;git_commit&quot;: &quot;648a21608c875af603a60c8c970a618097db2d22&quot;,
+        &quot;healthy_service_after&quot;: true,
+        &quot;reason&quot;: &quot;RollbackSucceeded&quot;
+      },
+      &quot;name&quot;: &quot;failed_release_rollback&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;duration_ms&quot;: 56239,
+      &quot;evidence&quot;: {
+        &quot;git_commit&quot;: &quot;0f8e5868e43113305799e0fc336e678ca4157e5c&quot;,
+        &quot;ready_replicas&quot;: 2
+      },
+      &quot;name&quot;: &quot;git_recovery_commit&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    }
+  ],
+  &quot;cluster&quot;: &quot;disposable-k3d&quot;,
+  &quot;schema&quot;: 1,
+  &quot;source_sha&quot;: &quot;055222e584c483ad4f195b087e32bd82cb5d0a30&quot;,
+  &quot;synthetic&quot;: true,
+  &quot;workload_source_sha&quot;: &quot;3bbe2f4fde0cd82c91ef0946a0c6dd3bed60dc39&quot;
+}</pre><p>Help: README and docs/runbook.md. No kubeconfigs, secrets or raw private logs are embedded.</p></html>

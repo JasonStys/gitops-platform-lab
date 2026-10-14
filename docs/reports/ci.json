@@ -1,0 +1,73 @@
+{
+  "author": "Jason Stys",
+  "checked_at": "2026-10-14T00:55:08Z",
+  "repository": "JasonStys/gitops-platform-lab",
+  "executable_source_sha": "055222e584c483ad4f195b087e32bd82cb5d0a30",
+  "scope": "Immutable executable-source snapshot. The documentation-only follow-up is verified through the same workflows; current main status is shown by README badges and Actions.",
+  "validate": {
+    "run_id": 38492293844,
+    "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/38492293844",
+    "conclusion": "success",
+    "completed_at": "2026-10-14T00:53:50Z",
+    "jobs": [
+      {
+        "name": "Python 3.14 / macos-15-intel",
+        "job_id": 115620104113,
+        "conclusion": "success"
+      },
+      {
+        "name": "cluster",
+        "job_id": 115620104243,
+        "conclusion": "success"
+      },
+      {
+        "name": "helm",
+        "job_id": 115620104257,
+        "conclusion": "success"
+      },
+      {
+        "name": "Python 3.12 / ubuntu-24.04",
+        "job_id": 115620104315,
+        "conclusion": "success"
+      },
+      {
+        "name": "Python 3.14 / ubuntu-24.04",
+        "job_id": 115620104371,
+        "conclusion": "success"
+      },
+      {
+        "name": "Python 3.14 / windows-latest",
+        "job_id": 115620104446,
+        "conclusion": "success"
+      },
+      {
+        "name": "security",
+        "job_id": 115620104506,
+        "conclusion": "success"
+      }
+    ]
+  },
+  "codeql": {
+    "run_id": 38492293884,
+    "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/38492293884",
+    "conclusion": "success",
+    "completed_at": "2026-10-14T00:50:01Z",
+    "open_alert_count": 0,
+    "jobs": [
+      {
+        "name": "CodeQL / Python",
+        "job_id": 115620104193,
+        "conclusion": "success"
+      }
+    ]
+  },
+  "synthetic": true,
+  "native_tests_per_lane": 138,
+  "statement_branch_coverage_percent": 99.25,
+  "native_helm_cases": 10,
+  "live_cluster_cases": 10,
+  "storage": {
+    "artifact_upload_steps": false,
+    "cache_creation_steps": false
+  }
+}

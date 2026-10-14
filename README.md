@@ -83,6 +83,9 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [docs/architecture.md](docs/architecture.md) | ADR-001: an observed, disposable GitOps platform. |
 | [docs/contracts.md](docs/contracts.md) | Configuration and evidence contracts. |
 | [docs/reports/benchmark.json](docs/reports/benchmark.json) | Measured warm bounded parsing and policy-audit timing/allocation. |
+| [docs/reports/ci.json](docs/reports/ci.json) | Verified immutable executable-source CI snapshot and completed job results. |
+| [docs/reports/drill.html](docs/reports/drill.html) | Escaped inert HTML rendering of the measured synthetic drill. |
+| [docs/reports/drill.json](docs/reports/drill.json) | Actual disposable-cluster Git/RBAC/network/drift/rollback measurements. |
 | [docs/reports/manifest.json](docs/reports/manifest.json) | Actual ten-case native Helm schema/render validation. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Measured validation and author review. |
 | [docs/research.md](docs/research.md) | Primary sources and implementation rationale. |
