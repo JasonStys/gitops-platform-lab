@@ -1,69 +1,69 @@
 {
   "author": "Jason Stys",
-  "checked_at": "2026-10-14T00:55:08Z",
+  "checked_at": "2026-10-14T01:27:12Z",
   "repository": "JasonStys/gitops-platform-lab",
-  "executable_source_sha": "055222e584c483ad4f195b087e32bd82cb5d0a30",
-  "scope": "Immutable executable-source snapshot. Documentation/tooling follow-ups are verified through the same workflows; current main status is shown by README badges and Actions.",
+  "executable_source_sha": "7cd145f5174449b39b349634fad7b4a00ccb1592",
+  "scope": "Immutable runtime-source snapshot including bounded positive policy onboarding. Report-only follow-ups are verified through the same workflows; current main status is shown by README badges and Actions.",
   "validate": {
-    "run_id": 38492293844,
-    "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/38492293844",
+    "run_id": 38495302651,
+    "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/38495302651",
     "conclusion": "success",
-    "completed_at": "2026-10-14T00:53:50Z",
+    "completed_at": "2026-10-14T01:26:39Z",
     "jobs": [
       {
-        "name": "Python 3.14 / macos-15-intel",
-        "job_id": 115620104113,
-        "conclusion": "success"
-      },
-      {
-        "name": "cluster",
-        "job_id": 115620104243,
-        "conclusion": "success"
-      },
-      {
         "name": "helm",
-        "job_id": 115620104257,
+        "job_id": 115629600417,
         "conclusion": "success"
       },
       {
-        "name": "Python 3.12 / ubuntu-24.04",
-        "job_id": 115620104315,
-        "conclusion": "success"
-      },
-      {
-        "name": "Python 3.14 / ubuntu-24.04",
-        "job_id": 115620104371,
-        "conclusion": "success"
-      },
-      {
-        "name": "Python 3.14 / windows-latest",
-        "job_id": 115620104446,
+        "name": "Python 3.14 / macos-15-intel",
+        "job_id": 115629600677,
         "conclusion": "success"
       },
       {
         "name": "security",
-        "job_id": 115620104506,
+        "job_id": 115629600710,
+        "conclusion": "success"
+      },
+      {
+        "name": "Python 3.14 / windows-latest",
+        "job_id": 115629600719,
+        "conclusion": "success"
+      },
+      {
+        "name": "Python 3.12 / ubuntu-24.04",
+        "job_id": 115629600730,
+        "conclusion": "success"
+      },
+      {
+        "name": "Python 3.14 / ubuntu-24.04",
+        "job_id": 115629600741,
+        "conclusion": "success"
+      },
+      {
+        "name": "cluster",
+        "job_id": 115629600851,
         "conclusion": "success"
       }
     ]
   },
   "codeql": {
-    "run_id": 38492293884,
-    "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/38492293884",
+    "run_id": 38495302629,
+    "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/38495302629",
     "conclusion": "success",
-    "completed_at": "2026-10-14T00:50:01Z",
-    "open_alert_count": 0,
+    "completed_at": "2026-10-14T01:22:44Z",
     "jobs": [
       {
         "name": "CodeQL / Python",
-        "job_id": 115620104193,
+        "job_id": 115629599921,
         "conclusion": "success"
       }
-    ]
+    ],
+    "open_alert_count": 0
   },
   "synthetic": true,
-  "native_tests_per_lane": 138,
-  "statement_branch_coverage_percent": 99.25,
+  "native_tests_per_lane": 139,
+  "statement_branch_coverage_percent": 98.91,
   "native_helm_cases": 10,
   "live_cluster_cases": 10,
   "storage": {

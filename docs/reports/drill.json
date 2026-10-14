@@ -1,12 +1,12 @@
 {
   "author": "Jason Stys",
-  "built_image_id": "201849adcd52842a645901824621f26430692f8520d16ff2b5768ff68dd5f179",
+  "built_image_id": "60c4fe82cef3df009e5dd2e88de015a9c57c3ab9476bb6a50156c6822b249794",
   "checks": [
     {
-      "duration_ms": 68372,
+      "duration_ms": 69479,
       "evidence": {
         "control_plane": "private-loopback",
-        "git_commit": "98ec6adc8120970111bdb9f1bb125c26a856de08",
+        "git_commit": "bf4b095291c381243de6a2c59ac8aa8a930e3086",
         "image_pull": "Never",
         "ready_replicas": 1
       },
@@ -14,16 +14,16 @@
       "result": "PASS"
     },
     {
-      "duration_ms": 14585,
+      "duration_ms": 16827,
       "evidence": {
-        "git_commit": "8794f28e9544cc81ac89df57a0dc753e5901331d",
+        "git_commit": "f1a2c0fb4ccc2fb1fc0db0088d0eb062be550bbe",
         "ready_replicas": 2
       },
       "name": "git_promotion",
       "result": "PASS"
     },
     {
-      "duration_ms": 12475,
+      "duration_ms": 12557,
       "evidence": {
         "injected_replicas": 3,
         "restored_replicas": 2
@@ -32,7 +32,7 @@
       "result": "PASS"
     },
     {
-      "duration_ms": 181,
+      "duration_ms": 230,
       "evidence": {
         "assertions": 6,
         "cross_namespace_delivery": false,
@@ -42,8 +42,9 @@
       "result": "PASS"
     },
     {
-      "duration_ms": 8973,
+      "duration_ms": 11575,
       "evidence": {
+        "convergence_attempts": 1,
         "outcome": "allowed",
         "positive_control_after": true,
         "reason": "http-200",
@@ -54,8 +55,9 @@
       "result": "PASS"
     },
     {
-      "duration_ms": 11187,
+      "duration_ms": 9339,
       "evidence": {
+        "convergence_attempts": 1,
         "outcome": "blocked",
         "positive_control_after": true,
         "reason": "connection-refused",
@@ -66,8 +68,9 @@
       "result": "PASS"
     },
     {
-      "duration_ms": 9234,
+      "duration_ms": 11725,
       "evidence": {
+        "convergence_attempts": 1,
         "outcome": "blocked",
         "positive_control_after": true,
         "reason": "connection-refused",
@@ -78,7 +81,7 @@
       "result": "PASS"
     },
     {
-      "duration_ms": 595,
+      "duration_ms": 697,
       "evidence": {
         "privileged_created": false,
         "server_dry_run": true
@@ -87,10 +90,10 @@
       "result": "PASS"
     },
     {
-      "duration_ms": 59585,
+      "duration_ms": 60726,
       "evidence": {
         "failed_revision_retained": true,
-        "git_commit": "648a21608c875af603a60c8c970a618097db2d22",
+        "git_commit": "775525cd2fd0fc627ae8bc1eff466ea3d2afcc94",
         "healthy_service_after": true,
         "reason": "RollbackSucceeded"
       },
@@ -98,9 +101,9 @@
       "result": "PASS"
     },
     {
-      "duration_ms": 56239,
+      "duration_ms": 57025,
       "evidence": {
-        "git_commit": "0f8e5868e43113305799e0fc336e678ca4157e5c",
+        "git_commit": "9a06894b2dae8af88ebe5df981418ac2715bb099",
         "ready_replicas": 2
       },
       "name": "git_recovery_commit",
@@ -109,7 +112,7 @@
   ],
   "cluster": "disposable-k3d",
   "schema": 1,
-  "source_sha": "055222e584c483ad4f195b087e32bd82cb5d0a30",
+  "source_sha": "7cd145f5174449b39b349634fad7b4a00ccb1592",
   "synthetic": true,
   "workload_source_sha": "3bbe2f4fde0cd82c91ef0946a0c6dd3bed60dc39"
 }

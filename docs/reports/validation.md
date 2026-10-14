@@ -1,6 +1,6 @@
 # Measured validation and author review
 
-Author: Jason Stys. Native Windows validation on 2026-10-13 and actual hosted validation on 2026-10-14 UTC: 138 tests pass with 99.25% combined statement/branch coverage of authored `lab`/`workload`, no skips/exclusions. Strict Ruff/mypy pass. Ten real native Helm cases pass (three accepted/seven rejected), including bool quota and unknown/external values. Real smart-HTTP shallow Git clone/read-only endpoint tests and actual SRE HTTP calculation pass.
+Author: Jason Stys. Native Windows validation on 2026-10-13 and actual hosted validation on 2026-10-14 UTC: 139 tests pass with 98.91% combined statement/branch coverage of authored `lab`/`workload`, no skips/exclusions. Strict Ruff/mypy pass. Ten real native Helm cases pass (three accepted/seven rejected), including bool quota and unknown/external values. Real smart-HTTP shallow Git clone/read-only endpoint tests and actual SRE HTTP calculation pass.
 
 The actual warmed parse/audit [benchmark](benchmark.json) records five batches of 100 decisions, five resources/decision, with a correctness oracle: median 0.662 ms/decision and peak Python allocation 37,109 bytes on Windows/Python 3.14.6. Timing is informational and excludes cluster/Helm/network startup. Native Helm results are recorded in [manifest.json](manifest.json). These particular files do not assert live cluster enforcement; that evidence is separate below.
 
@@ -10,26 +10,26 @@ Prototype review corrected unsupported Git-daemon source design to Flux-compatib
 
 ## Verified executable-source CI
 
-Source [055222e584c483ad4f195b087e32bd82cb5d0a30](https://github.com/JasonStys/gitops-platform-lab/commit/055222e584c483ad4f195b087e32bd82cb5d0a30) passed every actual job in [Validate run 38492293844](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38492293844), completed 2026-10-14T00:53:50Z. Each Ubuntu 3.12/3.14, Windows 3.14 and macOS Intel 3.14 lane independently logged 138 passing tests and 99.25% statement/branch coverage. The dedicated Helm job passed the real ten-case matrix. The security job passed complete runtime/dev advisory audits, Gitleaks history, actionlint and ShellCheck with no advisory suppression or gate reductions.
+Source [7cd145f5174449b39b349634fad7b4a00ccb1592](https://github.com/JasonStys/gitops-platform-lab/commit/7cd145f5174449b39b349634fad7b4a00ccb1592) passed every actual job in [Validate run 38495302651](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38495302651), completed 2026-10-14T01:26:39Z. Each Ubuntu 3.12/3.14, Windows 3.14 and macOS Intel 3.14 lane independently logged 139 passing tests and 98.91% statement/branch coverage. The dedicated Helm job passed the real ten-case matrix. The security job passed complete runtime/dev advisory audits, Gitleaks history, actionlint and ShellCheck with no advisory suppression or gate reductions.
 
-[CodeQL run 38492293884](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38492293884) passed security-extended Python analysis; the open-alert API returned zero findings at 2026-10-14T00:55:08Z. [ci.json](ci.json) records this immutable executable-source snapshot. Current README badges/Actions show the documentation/tooling follow-ups, which must pass the same workflows before final acceptance; no self-referential commit hash is fabricated. GitHub rendering QA corrected file-guide underscore escaping and stale test-summary wording without changing workload/policy/cluster behavior.
+[CodeQL run 38495302629](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38495302629) passed security-extended Python analysis; the open-alert API returned zero findings at 2026-10-14T01:27:12Z. [ci.json](ci.json) records this immutable runtime-source snapshot, including bounded positive policy onboarding. Current README badges/Actions show report-only follow-ups, which must pass the same workflows before final acceptance; no self-referential commit hash is fabricated. GitHub rendering QA also corrected file-guide underscore escaping and stale test-summary wording.
 
 ## Actual disposable cluster measurements
 
-[drill.json](drill.json) is the actual aggregate extracted from the completed cluster job, not a unit fixture. [drill.html](drill.html) is generated from that validated aggregate. The built image configuration digest is `201849adcd52842a645901824621f26430692f8520d16ff2b5768ff68dd5f179`; it is not an OCI signature or authenticity certificate.
+[drill.json](drill.json) is the actual aggregate extracted from the completed cluster job, not a unit fixture. [drill.html](drill.html) is generated from that validated aggregate. The built image configuration digest is `60c4fe82cef3df009e5dd2e88de015a9c57c3ab9476bb6a50156c6822b249794`; it is not an OCI signature or authenticity certificate.
 
 | Case | Observed evidence | Duration ms |
 | --- | --- | --- |
-| Bootstrap | Exact baseline Git revision, one Ready replica, loopback API | 68,372 |
-| Git promotion | Exact promoted revision, two Ready replicas | 14,585 |
-| Drift repair | API receipt accepted replicas=3; observed restoration to 2 | 12,475 |
-| Namespace RBAC | Six actual can-i assertions; no runtime Secret or cross-namespace delivery access | 181 |
-| Allowed traffic | Exact HTTP 200 and successful follow-up control | 8,973 |
-| Wrong pod label | Refusal plus scoped REJECT packets 0→1, verified exit and healthy follow-up | 11,187 |
-| Wrong namespace | Refusal plus scoped REJECT packets 0→1, verified exit and healthy follow-up | 9,234 |
-| Pod Security admission | Specific restricted admission denial; privileged Pod never created | 595 |
-| Failed upgrade rollback | Current RollbackSucceeded condition, retained failed Helm revision, restored health | 59,585 |
-| Later Git recovery | Exact recovered revision, two Ready replicas and current Helm Ready | 56,239 |
+| Bootstrap | Exact baseline Git revision, one Ready replica, loopback API | 69,479 |
+| Git promotion | Exact promoted revision, two Ready replicas | 16,827 |
+| Drift repair | API receipt accepted replicas=3; observed restoration to 2 | 12,557 |
+| Namespace RBAC | Six actual can-i assertions; no runtime Secret or cross-namespace delivery access | 230 |
+| Allowed traffic | Exact HTTP 200, first attempt, successful follow-up control | 11,575 |
+| Wrong pod label | Single-shot refusal plus scoped REJECT packets 0→1, verified exit and healthy follow-up | 9,339 |
+| Wrong namespace | Single-shot refusal plus scoped REJECT packets 0→1, verified exit and healthy follow-up | 11,725 |
+| Pod Security admission | Specific restricted admission denial; privileged Pod never created | 697 |
+| Failed upgrade rollback | Current RollbackSucceeded condition, retained failed Helm revision, restored health | 60,726 |
+| Later Git recovery | Exact recovered revision, two Ready replicas and current Helm Ready | 57,025 |
 
 The actual built workload image scan detected Alpine 3.24.1, checked 30 OS packages and found zero HIGH/CRITICAL vulnerabilities at that point. Trivy reported no language-specific package files; the workload is dependency-free and pip is removed. This is not claimed as a complete CPython source/vulnerability audit or a full cluster/control-plane image scan. Runtime/development Python package graphs are separately advisory-audited. Point-in-time results cannot prove absence of future defects.
 
@@ -41,6 +41,6 @@ The actual built workload image scan detected Alpine 3.24.1, checked 30 OS packa
 - [Run 38490712926](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38490712926): refusal was observed, but post-completion counters were zero. Sampling after Pod cleanup is not valid packet evidence.
 - [Run 38491378366](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38491378366): a PID-1 process-stop assumption did not hold the probe. A registered, bounded acknowledgement handshake replaced it.
 - [Run 38491732568](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38491732568): active sampling demonstrated refusal plus REJECT packets 0→1. The former timeout-only expectation was incorrect for the actual K3s implementation. The final oracle requires eligible transport, fresh scoped counter increase, verified program exit and healthy controls. Native regressions reject stale/zero counters, DNS/HTTP errors and wrong expectations.
-- [Run 38494019866](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38494019866): a newly created approved control Pod was briefly rejected before its label/IP-set allow rule converged. Bounded positive onboarding now discloses attempt counts and rejects permanent blockage; negative probes remain single-shot and DNS/HTTP errors still fail immediately. A native regression verifies those distinctions. The current change requires a fresh live CI result; the immutable snapshot above remains historical evidence.
+- [Run 38494019866](https://github.com/JasonStys/gitops-platform-lab/actions/runs/38494019866): a newly created approved control Pod was briefly rejected before its label/IP-set allow rule converged. Bounded positive onboarding now discloses receipt attempt counts and rejects permanent blockage; negative probes remain single-shot and DNS/HTTP errors still fail immediately. A native regression verifies those distinctions. The corrected runtime passed the complete fresh live run recorded above; readiness is not misrepresented as a first-request availability SLA.
 
 All failures remain available; no run history was deleted to create a green appearance. No local Docker repair or production access occurred. This repo creates zero Actions artifacts/caches and publishes only selected synthetic aggregates. Account-wide billing details are not in the repository. Future production identity, HA, authenticated source/image trust and multi-node/CNI assurance remain explicitly outside scope.
