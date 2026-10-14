@@ -1,129 +1,149 @@
 """Actual disposable K3s/Flux/Helm Git, policy, drift and rollback drill. Created by Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ROOT — line 146
-# definition: Drill — line 151
-# definition: __init__ — line 154
-# parameter: output — line 154
-# parameter: self — line 154
-# definition: run — line 168
-# parameter: self — line 169
-# parameter: args — line 170
-# parameter: cwd — line 172
-# parameter: data — line 173
-# parameter: valid — line 174
-# parameter: timeout — line 175
-# parameter: include_error — line 176
-# variable: executable — line 179
-# variable: command — line 180
-# variable: completed — line 181
-# definition: kube — line 202
-# parameter: args — line 203
-# parameter: data — line 203
-# parameter: self — line 203
-# parameter: valid — line 203
-# definition: get — line 212
-# parameter: kind — line 213
-# parameter: name — line 213
-# parameter: namespace — line 213
-# parameter: self — line 213
-# variable: output — line 216
-# definition: wait — line 221
-# parameter: predicate — line 221
-# parameter: self — line 221
-# parameter: timeout — line 221
-# variable: deadline — line 223
-# definition: check — line 230
-# parameter: evidence — line 230
-# parameter: name — line 230
-# parameter: self — line 230
-# parameter: started — line 230
-# variable: item — line 232
-# definition: commit — line 243
-# parameter: path — line 243
-# parameter: replicas — line 243
-# parameter: revision — line 243
-# parameter: self — line 243
-# variable: target — line 245
-# variable: release — line 246
-# definition: ready — line 258
-# parameter: replicas — line 258
-# parameter: revision — line 258
-# parameter: self — line 258
-# variable: deployment — line 260
-# variable: spec — line 263
-# variable: status — line 263
-# variable: helm — line 264
-# variable: conditions — line 267
-# variable: item — line 278
-# definition: source_seen — line 282
-# parameter: commit — line 282
-# parameter: self — line 282
-# variable: revision — line 284
-# definition: network — line 292
-# parameter: expected — line 292
-# parameter: namespace — line 292
-# parameter: role — line 292
-# parameter: self — line 292
-# variable: name — line 294
-# variable: pod — line 295
-# variable: result — line 340
-# variable: logs — line 341
-# variable: proof — line 344
-# definition: bootstrap — line 355
-# parameter: self — line 355
-# variable: started — line 357
-# variable: endpoint — line 358
-# variable: lock — line 367
-# variable: image_id — line 398
-# variable: controllers — line 410
-# variable: controller — line 421
-# variable: account — line 434
-# variable: controller — line 434
-# variable: current — line 438
-# variable: args — line 439
-# variable: args — line 440
-# variable: folder — line 471
-# variable: bare — line 474
-# variable: commit — line 488
-# variable: network — line 489
-# variable: gateway — line 492
-# variable: sync — line 510
-# definition: execute — line 528
-# parameter: self — line 528
-# variable: image_id — line 530
-# variable: started — line 531
-# variable: promotion — line 532
-# variable: started — line 537
-# variable: started — line 545
-# variable: account — line 546
-# variable: expected — line 546
-# variable: namespace — line 546
-# variable: resource — line 546
-# variable: verb — line 546
-# variable: result — line 560
-# variable: expected — line 583
-# variable: namespace — line 583
-# variable: role — line 583
-# variable: scenario — line 583
-# variable: started — line 588
-# variable: proof — line 589
-# variable: started — line 593
-# variable: unsafe — line 594
-# variable: result — line 608
-# variable: started — line 631
-# variable: broken — line 632
-# variable: item — line 641
-# variable: history — line 655
-# variable: item — line 659
-# variable: started — line 674
-# variable: recovery — line 675
-# variable: report — line 682
-# definition: close — line 697
-# parameter: self — line 697
-# definition: main — line 710
-# variable: parser — line 712
-# variable: args — line 715
-# variable: drill — line 720
+# variable: ROOT — line 167
+# definition: loopback_port — line 172
+# variable: reservation — line 174
+# definition: validate_config — line 179
+# parameter: cluster — line 179
+# parameter: content — line 179
+# parameter: port — line 179
+# variable: config — line 181
+# variable: expected — line 182
+# variable: clusters — line 189
+# variable: contexts — line 190
+# definition: Drill — line 205
+# definition: __init__ — line 208
+# parameter: output — line 208
+# parameter: self — line 208
+# definition: run — line 222
+# parameter: self — line 223
+# parameter: args — line 224
+# parameter: cwd — line 226
+# parameter: data — line 227
+# parameter: valid — line 228
+# parameter: timeout — line 229
+# parameter: include_error — line 230
+# variable: executable — line 233
+# variable: command — line 234
+# variable: completed — line 235
+# definition: kube — line 256
+# parameter: args — line 257
+# parameter: data — line 257
+# parameter: self — line 257
+# parameter: valid — line 257
+# definition: get — line 266
+# parameter: kind — line 267
+# parameter: name — line 267
+# parameter: namespace — line 267
+# parameter: self — line 267
+# variable: output — line 270
+# definition: wait — line 275
+# parameter: predicate — line 275
+# parameter: self — line 275
+# parameter: timeout — line 275
+# variable: deadline — line 277
+# definition: check — line 284
+# parameter: evidence — line 284
+# parameter: name — line 284
+# parameter: self — line 284
+# parameter: started — line 284
+# variable: item — line 286
+# definition: commit — line 297
+# parameter: path — line 297
+# parameter: replicas — line 297
+# parameter: revision — line 297
+# parameter: self — line 297
+# variable: target — line 299
+# variable: release — line 300
+# definition: ready — line 312
+# parameter: replicas — line 312
+# parameter: revision — line 312
+# parameter: self — line 312
+# variable: deployment — line 314
+# variable: spec — line 317
+# variable: status — line 317
+# variable: helm — line 318
+# variable: conditions — line 321
+# variable: item — line 332
+# definition: source_seen — line 336
+# parameter: commit — line 336
+# parameter: self — line 336
+# variable: revision — line 338
+# definition: network — line 346
+# parameter: expected — line 346
+# parameter: namespace — line 346
+# parameter: role — line 346
+# parameter: self — line 346
+# variable: name — line 348
+# variable: pod — line 349
+# variable: result — line 394
+# variable: logs — line 395
+# variable: proof — line 398
+# definition: bootstrap — line 409
+# parameter: self — line 409
+# variable: started — line 411
+# variable: endpoint — line 412
+# variable: lock — line 421
+# variable: api_port — line 424
+# variable: kubeconfig — line 448
+# variable: image_id — line 453
+# variable: controllers — line 465
+# variable: controller — line 476
+# variable: account — line 489
+# variable: controller — line 489
+# variable: current — line 493
+# variable: args — line 494
+# variable: args — line 495
+# variable: folder — line 526
+# variable: bare — line 529
+# variable: commit — line 543
+# variable: network — line 544
+# variable: gateway — line 547
+# variable: sync — line 565
+# definition: execute — line 583
+# parameter: self — line 583
+# variable: image_id — line 585
+# variable: started — line 586
+# variable: promotion — line 587
+# variable: started — line 592
+# variable: started — line 600
+# variable: account — line 601
+# variable: expected — line 601
+# variable: namespace — line 601
+# variable: resource — line 601
+# variable: verb — line 601
+# variable: result — line 615
+# variable: expected — line 638
+# variable: namespace — line 638
+# variable: role — line 638
+# variable: scenario — line 638
+# variable: started — line 643
+# variable: proof — line 644
+# variable: started — line 648
+# variable: unsafe — line 649
+# variable: result — line 663
+# variable: started — line 686
+# variable: broken — line 687
+# variable: item — line 696
+# variable: history — line 710
+# variable: item — line 714
+# variable: started — line 729
+# variable: recovery — line 730
+# variable: report — line 737
+# definition: close — line 752
+# parameter: self — line 752
+# definition: diagnostics — line 764
+# parameter: self — line 764
+# variable: kind — line 768
+# variable: name — line 768
+# variable: item — line 775
+# variable: conditions — line 776
+# variable: key — line 784
+# variable: condition — line 786
+# definition: main — line 799
+# variable: parser — line 801
+# variable: args — line 804
+# variable: drill — line 809
 # END CODE MAP
 
 from __future__ import annotations
@@ -134,6 +154,7 @@ import json
 import os
 import re
 import shutil
+import socket
 import subprocess
 import sys
 import time
@@ -146,6 +167,39 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from lab.evidence import SCENARIOS, publish  # noqa: E402
+
+
+def loopback_port() -> int:
+    """Allocate a concrete ephemeral loopback port; k3d must never export literal port zero."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as reservation:
+        reservation.bind(("127.0.0.1", 0))
+        return int(reservation.getsockname()[1])
+
+
+def validate_config(content: str, cluster: str, port: int) -> None:
+    """Require exactly the owned context and concrete loopback TLS endpoint before any kubectl call."""
+    config = yaml.safe_load(content)
+    expected = "k3d-" + cluster
+    if (
+        type(port) is not int
+        or not 1 <= port <= 65535
+        or config.get("current-context") != expected
+    ):
+        raise ValueError("unexpected kubeconfig context/port")
+    clusters = config.get("clusters", [])
+    contexts = config.get("contexts", [])
+    if (
+        len(clusters) != 1
+        or clusters[0]["name"] != expected
+        or clusters[0]["cluster"]["server"] != f"https://127.0.0.1:{port}"
+    ):
+        raise ValueError("unexpected kubeconfig endpoint")
+    if (
+        len(contexts) != 1
+        or contexts[0]["name"] != expected
+        or contexts[0]["context"]["cluster"] != expected
+    ):
+        raise ValueError("unexpected kubeconfig binding")
 
 
 class Drill:
@@ -367,6 +421,7 @@ class Drill:
         lock = json.loads((ROOT / "tools.lock.json").read_text(encoding="utf-8"))
         # This exact new random name is owned even if creation fails part-way through.
         self.created = True
+        api_port = loopback_port()
         self.run(
             [
                 "k3d",
@@ -381,7 +436,7 @@ class Drill:
                 "0",
                 "--no-lb",
                 "--api-port",
-                "127.0.0.1:0",
+                f"127.0.0.1:{api_port}",
                 "--kubeconfig-update-default=false",
                 "--kubeconfig-switch-context=false",
                 "--k3s-arg",
@@ -390,9 +445,9 @@ class Drill:
             timeout=240,
         )
         self.created = True
-        self.config.write_text(
-            self.run(["k3d", "kubeconfig", "get", self.cluster]), encoding="utf-8"
-        )
+        kubeconfig = self.run(["k3d", "kubeconfig", "get", self.cluster])
+        validate_config(kubeconfig, self.cluster, api_port)
+        self.config.write_text(kubeconfig, encoding="utf-8")
         self.config.chmod(0o600)
         self.run(["docker", "build", "-t", "gitops-sre:lab", "."], timeout=240)
         image_id = (
@@ -706,6 +761,40 @@ class Drill:
         if self.created and re.fullmatch(r"gitops-lab-[0-9a-f]{10}", self.cluster):
             self.run(["k3d", "cluster", "delete", self.cluster], timeout=90)
 
+    def diagnostics(self) -> None:
+        """Print only known synthetic non-secret resource conditions on failure; never request a kubeconfig/Secret."""
+        if not self.config.is_file():
+            return
+        for kind, name in (
+            ("gitrepository", "platform"),
+            ("kustomization", "platform"),
+            ("helmrelease", "sre"),
+            ("deployment", "sre"),
+        ):
+            try:
+                item = self.get(kind, name)
+                conditions = item.get("status", {}).get("conditions", [])
+                print(
+                    json.dumps(
+                        {
+                            "diagnostic_kind": kind,
+                            "conditions": [
+                                {
+                                    key: str(condition.get(key, ""))[:500]
+                                    for key in ("type", "status", "reason", "message")
+                                }
+                                for condition in conditions[:8]
+                            ],
+                        }
+                    ),
+                    flush=True,
+                )
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+                print(
+                    json.dumps({"diagnostic_kind": kind, "state": "unavailable"}),
+                    flush=True,
+                )
+
 
 def main() -> int:
     """Run only on an explicitly acknowledged disposable Linux Docker host; never repair a local runtime."""
@@ -721,6 +810,7 @@ def main() -> int:
     try:
         drill.execute()
     except Exception:
+        drill.diagnostics()
         print(
             json.dumps({"result": "FAIL", "completed_cases": drill.checks}), flush=True
         )

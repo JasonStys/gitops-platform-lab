@@ -115,6 +115,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [scripts/validate_repo.py](scripts/validate_repo.py) | Verify untouched upstream source, workflow permissions/storage rules and reviewed release contracts. Jason Stys. |
 | [tests/__init__.py](tests/__init__.py) | Synthetic tests by Jason Stys; fixtures are not measured cluster reports. |
 | [tests/conftest.py](tests/conftest.py) | Private per-test fixtures, with real Helm-rendered resources and explicitly fake report inputs. Jason Stys. |
+| [tests/test_cluster_guards.py](tests/test_cluster_guards.py) | Native context/port guard regressions; no Docker or existing Kubernetes cluster is touched. Jason Stys. |
 | [tests/test_contracts.py](tests/test_contracts.py) | Duplicate/alias/type/file/UTF8/size/nesting adversarial inputs and normal parser boundaries. Jason Stys. |
 | [tests/test_evidence.py](tests/test_evidence.py) | Incomplete/false success, fingerprint, report-escaping and CLI privacy regression tests. Jason Stys. |
 | [tests/test_git_server.py](tests/test_git_server.py) | Real clone/fetch proof for isolated read-only smart HTTP Git; endpoints never accept pushes. Jason Stys. |
