@@ -87,6 +87,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [docs/reports/drill.html](docs/reports/drill.html) | Escaped inert HTML rendering of the measured synthetic drill. |
 | [docs/reports/drill.json](docs/reports/drill.json) | Actual disposable-cluster Git/RBAC/network/drift/rollback measurements. |
 | [docs/reports/manifest.json](docs/reports/manifest.json) | Actual ten-case native Helm schema/render validation. |
+| [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Measured validation and author review. |
 | [docs/research.md](docs/research.md) | Primary sources and implementation rationale. |
 | [docs/runbook.md](docs/runbook.md) | Operating and recovery runbook. |
