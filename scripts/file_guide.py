@@ -4,22 +4,22 @@
 # variable: BEGIN — line 33
 # variable: END — line 33
 # variable: SPECIAL — line 34
-# definition: description — line 57
-# parameter: path — line 57
-# variable: content — line 61
-# variable: line — line 68
-# definition: main — line 73
-# variable: parser — line 75
-# variable: args — line 77
-# variable: files — line 78
-# variable: rows — line 86
-# variable: path — line 87
-# variable: label — line 88
-# variable: readme — line 90
-# variable: original — line 91
-# variable: begin — line 92
-# variable: end — line 92
-# variable: expected — line 93
+# definition: description — line 59
+# parameter: path — line 59
+# variable: content — line 63
+# variable: line — line 70
+# definition: main — line 75
+# variable: parser — line 77
+# variable: args — line 79
+# variable: files — line 80
+# variable: rows — line 88
+# variable: path — line 89
+# variable: label — line 90
+# variable: readme — line 92
+# variable: original — line 93
+# variable: begin — line 94
+# variable: end — line 94
+# variable: expected — line 95
 # END CODE MAP
 
 from __future__ import annotations
@@ -46,6 +46,8 @@ SPECIAL = {
     "tools.lock.json": "Official tool archive hashes and immutable K3s image digest.",
     "chart/values.schema.json": "Closed native Helm schema with replica/image/readiness/revision limits.",
     "examples/rendered.json": "Actual native Helm render, reproduced and compared by manifest checks.",
+    "examples/reconciliation-pending.json": "Fictional healthy old-revision pods with unapplied newer Git intent.",
+    "examples/reconciliation-recovered.json": "Fictional matching current revisions, generation and declared readiness observations.",
     "docs/reports/manifest.json": "Actual ten-case native Helm schema/render validation.",
     "docs/reports/benchmark.json": "Measured warm bounded parsing and policy-audit timing/allocation.",
     "docs/reports/drill.json": "Actual disposable-cluster Git/RBAC/network/drift/rollback measurements.",

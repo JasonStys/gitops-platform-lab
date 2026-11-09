@@ -12,6 +12,7 @@ A runnable, disposable Kubernetes lab that proves Git reconciliation, drift repa
 - **Layered controls:** a closed Helm values schema and independent rendered-resource policy; non-root/read-only/capability-dropped pods; no runtime API token; namespace-scoped reconciliation/delivery service accounts; restricted Pod Security admission.
 - **Live networking proof:** a default-deny policy with namespace **AND** pod-label ingress selectors. Denial requires an eligible transport observation plus an increase in scoped live REJECT counters, a verified probe exit, and healthy HTTP controls before/after. Refusal, timeout or DNS failure alone cannot pass. Positive new-Pod onboarding is bounded and its attempt count is reported; negative probes never retry. This is a readiness check, not an instant first-request SLA.
 - **Recovery:** a deliberately bad scratch Git revision fails readiness; actual Helm history retains the failed revision and a successful rollback. A later healthy Git commit resolves the failed intent. The public repository never adopts the bad configuration.
+- **[Offline release review](docs/reconciliation-review.md):** desired/source/applied revisions, observed generation, readiness, dependencies and required transport references remain independent. Healthy old pods cannot falsely clear a new release, and missing/stale observations stay inconclusive.
 - **Evidence and delivery:** bounded parsers, real native HTTP/Git tests, negative/property cases, strict types/lint, native Helm validation, measured benchmarks, inert HTML/JSON reports, hash-pinned tools and storage-free Actions workflows.
 
 This is an educational **single-node disposable lab**, not a production cluster, managed cloud deployment, identity-authenticated business service, compliance certification or universal network-security guarantee. Bootstrap administrators and Flux's installation-level controllers remain trusted. Local Docker Desktop is not repaired or started by native validation.
@@ -82,16 +83,20 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [chart/values.yaml](chart/values.yaml) | Closed lab parameters. The local CI image is built/imported, never remotely pulled. Jason Stys. |
 | [docs/architecture.md](docs/architecture.md) | ADR-001: an observed, disposable GitOps platform. |
 | [docs/contracts.md](docs/contracts.md) | Configuration and evidence contracts. |
+| [docs/reconciliation-review.md](docs/reconciliation-review.md) | Desired and observed release review. |
 | [docs/reports/benchmark.json](docs/reports/benchmark.json) | Measured warm bounded parsing and policy-audit timing/allocation. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Verified immutable executable-source CI snapshot and completed job results. |
 | [docs/reports/drill.html](docs/reports/drill.html) | Escaped inert HTML rendering of the measured synthetic drill. |
 | [docs/reports/drill.json](docs/reports/drill.json) | Actual disposable-cluster Git/RBAC/network/drift/rollback measurements. |
 | [docs/reports/manifest.json](docs/reports/manifest.json) | Actual ten-case native Helm schema/render validation. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
+| [docs/reports/reconciliation-2026-11-09.md](docs/reports/reconciliation-2026-11-09.md) | Reconciliation review validation — 2026-11-09. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Measured validation and author review. |
 | [docs/research.md](docs/research.md) | Primary sources and implementation rationale. |
 | [docs/runbook.md](docs/runbook.md) | Operating and recovery runbook. |
 | [docs/testing.md](docs/testing.md) | Risk-based validation strategy. |
+| [examples/reconciliation-pending.json](examples/reconciliation-pending.json) | Fictional healthy old-revision pods with unapplied newer Git intent. |
+| [examples/reconciliation-recovered.json](examples/reconciliation-recovered.json) | Fictional matching current revisions, generation and declared readiness observations. |
 | [examples/rendered.json](examples/rendered.json) | Actual native Helm render, reproduced and compared by manifest checks. |
 | [gitops/kustomization.yml](gitops/kustomization.yml) | Reviewed Git path: one HelmRelease, never cluster-scoped bootstrap permissions. Jason Stys. |
 | [gitops/release.yml](gitops/release.yml) | Namespace-scoped Helm delivery with drift repair and final-failure rollback. Jason Stys. |
@@ -101,6 +106,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [lab/evidence.py](lab/evidence.py) | Closed measured drill reports and inert HTML publication, never cluster secrets. Jason Stys. |
 | [lab/network.py](lab/network.py) | Observed K3s denial requires transport, active scoped rule counters and external controls. Jason Stys. |
 | [lab/policy.py](lab/policy.py) | Fail-closed policies for this one closed Helm workload, not arbitrary Kubernetes. Jason Stys. |
+| [lab/reconcile.py](lab/reconcile.py) | Offline desired/observed release review; healthy old pods cannot prove convergence. Jason Stys. |
 | [ops/bootstrap.yml](ops/bootstrap.yml) | Administrator-only disposable bootstrap, outside the reviewed workload Git path. Jason Stys. |
 | [ops/sync.yml](ops/sync.yml) | Public HTTPS source template; disposable drill replaces only the owned source URL. Jason Stys. |
 | [pyproject.toml](pyproject.toml) | Strict types, lint, cross-platform tests and branch-inclusive coverage gate. |
@@ -126,6 +132,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [tests/test\_git\_server.py](tests/test_git_server.py) | Real clone/fetch proof for isolated read-only smart HTTP Git; endpoints never accept pushes. Jason Stys. |
 | [tests/test\_network.py](tests/test_network.py) | Negative oracles: refusal/timeout alone never prove policy; counts and positive controls are mandatory. Jason Stys. |
 | [tests/test\_policy.py](tests/test_policy.py) | Negative security-policy cases, type boundaries, selector semantics and randomized replicas. Jason Stys. |
+| [tests/test\_reconcile.py](tests/test_reconcile.py) | Independent stale-revision, missing-evidence and desired-intent review tests. Created by Jason Stys. |
 | [tests/test\_workload.py](tests/test_workload.py) | Real loopback HTTP, route privacy, bounded server and provisional transport/acknowledgement tests. Jason Stys. |
 | [tools.lock.json](tools.lock.json) | Official tool archive hashes and immutable K3s image digest. |
 | [upstream.lock.json](upstream.lock.json) | Exact SRE repository revision and byte digests of reused source/notice. |
