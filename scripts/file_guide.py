@@ -4,22 +4,22 @@
 # variable: BEGIN — line 33
 # variable: END — line 33
 # variable: SPECIAL — line 34
-# definition: description — line 59
-# parameter: path — line 59
-# variable: content — line 63
-# variable: line — line 70
-# definition: main — line 75
-# variable: parser — line 77
-# variable: args — line 79
-# variable: files — line 80
-# variable: rows — line 88
-# variable: path — line 89
-# variable: label — line 90
-# variable: readme — line 92
-# variable: original — line 93
-# variable: begin — line 94
-# variable: end — line 94
-# variable: expected — line 95
+# definition: description — line 61
+# parameter: path — line 61
+# variable: content — line 65
+# variable: line — line 72
+# definition: main — line 77
+# variable: parser — line 79
+# variable: args — line 81
+# variable: files — line 82
+# variable: rows — line 90
+# variable: path — line 91
+# variable: label — line 92
+# variable: readme — line 94
+# variable: original — line 95
+# variable: begin — line 96
+# variable: end — line 96
+# variable: expected — line 97
 # END CODE MAP
 
 from __future__ import annotations
@@ -32,6 +32,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BEGIN, END = "<!-- BEGIN FILE GUIDE -->", "<!-- END FILE GUIDE -->"
 SPECIAL = {
+    "docs/reports/project-guide.docx": "Reviewed Word project guide with source revision and dated validation scope.",
+    "docs/reports/publications.json": "Exact reviewed Office file identities, immutable source baseline and workflow observations.",
     ".gitattributes": "Portable LF text handling.",
     ".gitignore": "Excludes local tools, evidence, kubeconfigs, secrets and caches.",
     ".dockerignore": "Only the reviewed runtime adapter and pinned analyzer enter the image context.",

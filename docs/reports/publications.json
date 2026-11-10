@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "project": "gitops-platform-lab",
+  "author": "Jason Stys",
+  "editionDate": "2026-11-09",
+  "sourceBaseline": "37432ccaecceb7a569b23e5280c678d81f101de9",
+  "sourceUrl": "https://github.com/JasonStys/gitops-platform-lab/tree/37432ccaecceb7a569b23e5280c678d81f101de9",
+  "functionalEvidenceBaseline": "37432ccaecceb7a569b23e5280c678d81f101de9",
+  "evidenceObservedAt": "2026-11-10T05:25:40.628667+00:00",
+  "workflowEvidence": [
+    {
+      "conclusion": "success",
+      "databaseId": 42700789258,
+      "event": "push",
+      "headSha": "37432ccaecceb7a569b23e5280c678d81f101de9",
+      "name": "CodeQL",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/42700789258"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42700789577,
+      "event": "push",
+      "headSha": "37432ccaecceb7a569b23e5280c678d81f101de9",
+      "name": "Validate",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/gitops-platform-lab/actions/runs/42700789577"
+    }
+  ],
+  "summary": "Review desired, source and applied generations, dependency readiness and freshness against chronological evidence.",
+  "rationale": "Separates healthy old workloads from actual convergence on the intended Git revision.",
+  "limitations": [
+    "Supplied observations and proof references are not authenticated collection or verified network verdicts.",
+    "A healthy old workload does not prove convergence on the desired source revision.",
+    "Cluster examples are isolated lab validation, not automatic production rollout or workstation enforcement."
+  ],
+  "documents": [
+    {
+      "filename": "project-guide.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 44544,
+      "sha256": "64e579ba9afc0eb1f93fe7e48c4018a47019c625b7d2bc4376fad082a94a959e",
+      "sourceBaseline": "37432ccaecceb7a569b23e5280c678d81f101de9",
+      "visualReview": {
+        "approved": true,
+        "method": "Every rendered page individually viewed at readable original resolution",
+        "pageCount": 5,
+        "renderedPageSha256": {
+          "page-1.png": "7b640faafd0cd7d032c28396d05b6e002388c7368e220f6c33faa8cf1532652e",
+          "page-2.png": "cb76f225c07acb5a13bb839e2ed4844465419186a39121dd2557847f586589cf",
+          "page-3.png": "bdf03de4d11f58597307f405c6f69c11e01f703d41bab39df7c1098bbb68d4af",
+          "page-4.png": "16e78bc816ee585532ccdc3ec017fd3aa5a726763eb46c4f0c1ad5c02b34da61",
+          "page-5.png": "b6b51d417da971af203eafe00908c29ec400304fb43e76feb5a5e0c32c940972"
+        }
+      }
+    }
+  ],
+  "scope": "Reviewed documentation editions of the cited source. Checksums identify bytes, not authorship. Historical measurements retain their own dates; integration CI must be checked separately."
+}
