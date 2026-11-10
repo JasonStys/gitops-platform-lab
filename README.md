@@ -83,13 +83,17 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [chart/values.yaml](chart/values.yaml) | Closed lab parameters. The local CI image is built/imported, never remotely pulled. Jason Stys. |
 | [docs/architecture.md](docs/architecture.md) | ADR-001: an observed, disposable GitOps platform. |
 | [docs/contracts.md](docs/contracts.md) | Configuration and evidence contracts. |
+| [docs/handbook.md](docs/handbook.md) | GitOps Platform Lab handbook. |
 | [docs/reconciliation-review.md](docs/reconciliation-review.md) | Desired and observed release review. |
 | [docs/reports/benchmark.json](docs/reports/benchmark.json) | Measured warm bounded parsing and policy-audit timing/allocation. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Verified immutable executable-source CI snapshot and completed job results. |
+| [docs/reports/documentation-refresh-2026-11-09.md](docs/reports/documentation-refresh-2026-11-09.md) | Documentation refresh — 2026-11-09. |
 | [docs/reports/drill.html](docs/reports/drill.html) | Escaped inert HTML rendering of the measured synthetic drill. |
 | [docs/reports/drill.json](docs/reports/drill.json) | Actual disposable-cluster Git/RBAC/network/drift/rollback measurements. |
 | [docs/reports/manifest.json](docs/reports/manifest.json) | Actual ten-case native Helm schema/render validation. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
+| [docs/reports/project-guide.docx](docs/reports/project-guide.docx) | Reviewed Word project guide with source revision and dated validation scope. |
+| [docs/reports/publications.json](docs/reports/publications.json) | Exact reviewed Office file identities, immutable source baseline and workflow observations. |
 | [docs/reports/reconciliation-2026-11-09.md](docs/reports/reconciliation-2026-11-09.md) | Reconciliation review validation — 2026-11-09. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Measured validation and author review. |
 | [docs/research.md](docs/research.md) | Primary sources and implementation rationale. |
@@ -143,3 +147,9 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [workload/server.py](workload/server.py) | Fixed synthetic SRE HTTP workload and exact-owned-service connectivity probe. Jason Stys. |
 
 <!-- END FILE GUIDE -->
+
+## Documentation editions
+
+Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
+
+[Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
