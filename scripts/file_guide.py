@@ -4,22 +4,22 @@
 # variable: BEGIN — line 33
 # variable: END — line 33
 # variable: SPECIAL — line 34
-# definition: description — line 65
-# parameter: path — line 65
-# variable: content — line 69
-# variable: line — line 76
-# definition: main — line 81
-# variable: parser — line 83
-# variable: args — line 85
-# variable: files — line 86
-# variable: rows — line 94
-# variable: path — line 95
-# variable: label — line 96
-# variable: readme — line 98
-# variable: original — line 99
-# variable: begin — line 100
-# variable: end — line 100
-# variable: expected — line 101
+# definition: description — line 68
+# parameter: path — line 68
+# variable: content — line 72
+# variable: line — line 79
+# definition: main — line 84
+# variable: parser — line 86
+# variable: args — line 88
+# variable: files — line 89
+# variable: rows — line 97
+# variable: path — line 98
+# variable: label — line 99
+# variable: readme — line 101
+# variable: original — line 102
+# variable: begin — line 103
+# variable: end — line 103
+# variable: expected — line 104
 # END CODE MAP
 
 from __future__ import annotations
@@ -32,6 +32,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BEGIN, END = "<!-- BEGIN FILE GUIDE -->", "<!-- END FILE GUIDE -->"
 SPECIAL = {
+    "docs/reports/windows-application-guide-1.1.0-r2.docx": "Current peer-reviewed installed app guide with actual screenshots and immutable code.",
+    "docs/reports/windows-application-guide-1.1.0-r2.json": "Exact guide, source, image and individually reviewed page identities.",
+    "docs/reports/installed-windows-1.1.0-r2-2026-11-11.md": "Observed installed workflows, delivery evidence, data preservation and practical limits.",
     "docs/reports/windows-application-guide-1.1.0.docx": "Current peer-reviewed installed app guide with actual screenshots and immutable code.",
     "docs/reports/windows-application-guide-1.1.0.json": "Exact guide, source, image and individually reviewed page identities.",
     "docs/reports/installed-windows-1.1.0-2026-11-11.md": "Observed installed workflows, delivery evidence, data preservation and practical limits.",
