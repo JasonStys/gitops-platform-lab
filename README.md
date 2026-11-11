@@ -103,6 +103,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [docs/reports/project-guide.docx](docs/reports/project-guide.docx) | Reviewed Word project guide with source revision and dated validation scope. |
 | [docs/reports/publications.json](docs/reports/publications.json) | Exact reviewed Office file identities, immutable source baseline and workflow observations. |
 | [docs/reports/reconciliation-2026-11-09.md](docs/reports/reconciliation-2026-11-09.md) | Reconciliation review validation — 2026-11-09. |
+| [docs/reports/runner-network-2026-11-11.md](docs/reports/runner-network-2026-11-11.md) | Disposable-runner package acquisition — 2026-11-11. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Measured validation and author review. |
 | [docs/research.md](docs/research.md) | Primary sources and implementation rationale. |
 | [docs/runbook.md](docs/runbook.md) | Operating and recovery runbook. |
@@ -162,6 +163,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [tests/test\_policy.py](tests/test_policy.py) | Negative security-policy cases, type boundaries, selector semantics and randomized replicas. Jason Stys. |
 | [tests/test\_profile\_admission.py](tests/test_profile_admission.py) | Actual pre-existing alias refusal and ordinary SQLite recovery continuity. Jason Stys. |
 | [tests/test\_reconcile.py](tests/test_reconcile.py) | Independent stale-revision, missing-evidence and desired-intent review tests. Created by Jason Stys. |
+| [tests/test\_runner\_network\_policy.py](tests/test_runner_network_policy.py) | Actual workflow policy mutants for signed disposable-runner APT acquisition. Jason Stys. |
 | [tests/test\_workload.py](tests/test_workload.py) | Real loopback HTTP, route privacy, bounded server and provisional transport/acknowledgement tests. Jason Stys. |
 | [tools.lock.json](tools.lock.json) | Official tool archive hashes and immutable K3s image digest. |
 | [upstream.lock.json](upstream.lock.json) | Exact SRE repository revision and byte digests of reused source/notice. |
@@ -178,3 +180,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
 
 [Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
+
+## Disposable-runner network boundary
+
+[Observed setup failures and signed APT acquisition hardening](docs/reports/runner-network-2026-11-11.md). Source/core/native assertions remain mandatory; mirror selection is not a proven DNS repair or permission to bypass unavailable dependencies.
