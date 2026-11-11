@@ -4,22 +4,22 @@
 # variable: BEGIN — line 33
 # variable: END — line 33
 # variable: SPECIAL — line 34
-# definition: description — line 61
-# parameter: path — line 61
-# variable: content — line 65
-# variable: line — line 72
-# definition: main — line 77
-# variable: parser — line 79
-# variable: args — line 81
-# variable: files — line 82
-# variable: rows — line 90
-# variable: path — line 91
-# variable: label — line 92
-# variable: readme — line 94
-# variable: original — line 95
-# variable: begin — line 96
-# variable: end — line 96
-# variable: expected — line 97
+# definition: description — line 62
+# parameter: path — line 62
+# variable: content — line 66
+# variable: line — line 73
+# definition: main — line 78
+# variable: parser — line 80
+# variable: args — line 82
+# variable: files — line 83
+# variable: rows — line 91
+# variable: path — line 92
+# variable: label — line 93
+# variable: readme — line 95
+# variable: original — line 96
+# variable: begin — line 97
+# variable: end — line 97
+# variable: expected — line 98
 # END CODE MAP
 
 from __future__ import annotations
@@ -32,6 +32,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BEGIN, END = "<!-- BEGIN FILE GUIDE -->", "<!-- END FILE GUIDE -->"
 SPECIAL = {
+    "requirements-native.lock": "Exact complete hash-locked native freezing graph; no runtime installer dependency.",
     "docs/reports/project-guide.docx": "Reviewed Word project guide with source revision and dated validation scope.",
     "docs/reports/publications.json": "Exact reviewed Office file identities, immutable source baseline and workflow observations.",
     ".gitattributes": "Portable LF text handling.",

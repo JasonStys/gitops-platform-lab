@@ -13,3 +13,8 @@ __pycache__/
 *.log
 *.kubeconfig
 *.db
+
+# Native candidate/build outputs; private profiles are outside the source tree.
+out/
+release/
+*.spec

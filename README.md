@@ -5,6 +5,12 @@
 
 A runnable, disposable Kubernetes lab that proves Git reconciliation, drift repair, scoped service identities, actual NetworkPolicy enforcement and failed-release recovery. Created by **[Jason Stys](https://github.com/JasonStys)** · [Professional contact](https://www.linkedin.com/in/jason-stys-31b30b351/).
 
+## Native offline workbench
+
+**GitOps Reconciliation Workbench 1.1.0** adds real native file/configuration controls, original-engine analysis, searchable findings, full evidence, exact export and durable review history. Prepared scenarios run inside this same application. [Usage, profile privacy and complete compiled-app test](docs/native-application.md) · [Dated candidate validation](docs/reports/native-workbench-2026-11-11.md).
+
+Review an authorized rendered chart or supplied workload observations using the original closed five-resource policy and reconciliation engines. Keep desired intent, observed readiness, dependency evidence and transport references separate; no live cluster or controller is started. The portable Windows recipe bundles the patched runtime; no separately installed Python/Node or baked password is needed. Publication and installation are separate review steps, not implied by a source badge.
+
 ## Features
 
 - **Real GitOps:** Flux source/kustomize/helm controllers read a synthetic Git repository, apply namespace-scoped Helm releases, consume exact commits, and restore a deliberately drifted replica count.
@@ -84,6 +90,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [docs/architecture.md](docs/architecture.md) | ADR-001: an observed, disposable GitOps platform. |
 | [docs/contracts.md](docs/contracts.md) | Configuration and evidence contracts. |
 | [docs/handbook.md](docs/handbook.md) | GitOps Platform Lab handbook. |
+| [docs/native-application.md](docs/native-application.md) | GitOps Reconciliation Workbench: native application. |
 | [docs/reconciliation-review.md](docs/reconciliation-review.md) | Desired and observed release review. |
 | [docs/reports/benchmark.json](docs/reports/benchmark.json) | Measured warm bounded parsing and policy-audit timing/allocation. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Verified immutable executable-source CI snapshot and completed job results. |
@@ -91,10 +98,12 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [docs/reports/drill.html](docs/reports/drill.html) | Escaped inert HTML rendering of the measured synthetic drill. |
 | [docs/reports/drill.json](docs/reports/drill.json) | Actual disposable-cluster Git/RBAC/network/drift/rollback measurements. |
 | [docs/reports/manifest.json](docs/reports/manifest.json) | Actual ten-case native Helm schema/render validation. |
+| [docs/reports/native-workbench-2026-11-11.md](docs/reports/native-workbench-2026-11-11.md) | Native offline workbench validation — 2026-11-11. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
 | [docs/reports/project-guide.docx](docs/reports/project-guide.docx) | Reviewed Word project guide with source revision and dated validation scope. |
 | [docs/reports/publications.json](docs/reports/publications.json) | Exact reviewed Office file identities, immutable source baseline and workflow observations. |
 | [docs/reports/reconciliation-2026-11-09.md](docs/reports/reconciliation-2026-11-09.md) | Reconciliation review validation — 2026-11-09. |
+| [docs/reports/runner-network-2026-11-11.md](docs/reports/runner-network-2026-11-11.md) | Disposable-runner package acquisition — 2026-11-11. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Measured validation and author review. |
 | [docs/research.md](docs/research.md) | Primary sources and implementation rationale. |
 | [docs/runbook.md](docs/runbook.md) | Operating and recovery runbook. |
@@ -107,7 +116,12 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [lab/\_\_init\_\_.py](lab/__init__.py) | Bounded offline manifest and measured GitOps evidence tools. Created by Jason Stys. |
 | [lab/\_\_main\_\_.py](lab/__main__.py) | Offline policy/report CLI; arbitrary files are not executed or sent anywhere. Jason Stys. |
 | [lab/contracts.py](lab/contracts.py) | Strict bounded document loading; inputs are data, never commands. Created by Jason Stys. |
+| [lab/desktop.py](lab/desktop.py) | Native offline workbench: real project inputs, analysis, searchable evidence, history and export. Jason Stys. |
+| [lab/desktop\_io.py](lab/desktop_io.py) | Bounded regular descriptor reads and strict finite JSON for owner-local desktop state. Jason Stys. |
+| [lab/desktop\_project.py](lab/desktop_project.py) | Practical offline manifest and reconciliation review using original closed GitOps engines. Jason Stys. |
+| [lab/desktop\_state.py](lab/desktop_state.py) | Owner-local desktop profile, bounded durable bundles and non-overwriting export. Jason Stys. |
 | [lab/evidence.py](lab/evidence.py) | Closed measured drill reports and inert HTML publication, never cluster secrets. Jason Stys. |
+| [lab/inputs.py](lab/inputs.py) | Bounded stable ordinary-file reads and streaming tool hashes for offline identity inputs. Jason Stys. |
 | [lab/network.py](lab/network.py) | Observed K3s denial requires transport, active scoped rule counters and external controls. Jason Stys. |
 | [lab/policy.py](lab/policy.py) | Fail-closed policies for this one closed Helm workload, not arbitrary Kubernetes. Jason Stys. |
 | [lab/reconcile.py](lab/reconcile.py) | Offline desired/observed release review; healthy old pods cannot prove convergence. Jason Stys. |
@@ -116,27 +130,41 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [pyproject.toml](pyproject.toml) | Strict types, lint, cross-platform tests and branch-inclusive coverage gate. |
 | [requirements-dev.in](requirements-dev.in) | Exact validation dependencies plus the runtime graph. |
 | [requirements-dev.lock](requirements-dev.lock) | Complete hash-pinned portable validation graph. |
+| [requirements-native.lock](requirements-native.lock) | Exact complete hash-locked native freezing graph; no runtime installer dependency. |
 | [requirements.in](requirements.in) | Exact runtime manifest-validation dependencies. |
 | [requirements.lock](requirements.lock) | Complete hash-pinned portable runtime dependency graph. |
 | [scripts/benchmark.py](scripts/benchmark.py) | Informational warmed policy parsing/audit benchmark with an actual correctness oracle. Jason Stys. |
 | [scripts/bootstrap.py](scripts/bootstrap.py) | Install explicit hash-pinned official tools without shell installers or unsafe extraction. Jason Stys. |
+| [scripts/build\_native.py](scripts/build_native.py) | Build the complete real offline workbench as one Windows portable executable. Jason Stys. |
+| [scripts/check\_tk\_runtime.py](scripts/check_tk_runtime.py) | Require the selected interpreter's actual native Tk imports and loaded Tcl, without a display. Jason Stys. |
 | [scripts/cluster\_drill.py](scripts/cluster_drill.py) | Actual disposable K3s/Flux/Helm Git, policy, drift and rollback drill. Created by Jason Stys. |
 | [scripts/code\_map.py](scripts/code_map.py) | Generate/check exact Python, SQL, shell and YAML symbol positions. Created by Jason Stys. |
 | [scripts/file\_guide.py](scripts/file_guide.py) | Generate exhaustive Git-tracked README summaries without including ignored runtime data. Jason Stys. |
 | [scripts/git\_server.py](scripts/git_server.py) | Read-only bounded smart HTTP Git service for owned synthetic CI repositories. Created by Jason Stys. |
 | [scripts/manifest\_check.py](scripts/manifest_check.py) | Actual native Helm schema/render tests and deterministic measured example maintenance. Jason Stys. |
+| [scripts/native\_acceptance.py](scripts/native_acceptance.py) | Actual final portable widgets/core/native-window acceptance with independent oracles. Jason Stys. |
+| [scripts/native\_common.py](scripts/native_common.py) | Actual patched Python/Tcl/Tk/PyInstaller runtime notices and authored portable icon. Jason Stys. |
+| [scripts/native\_entry.py](scripts/native_entry.py) | Launch the actual bundled offline project workbench; no setup shell commands. Jason Stys. |
 | [scripts/scanners.py](scripts/scanners.py) | Install only hash-pinned official Linux scanner binaries. Created by Jason Stys. |
+| [scripts/test\_native\_app.py](scripts/test_native_app.py) | Run the real frozen workbench twice with an owned synthetic profile and exact bundle persistence. Jason Stys. |
 | [scripts/validate.sh](scripts/validate.sh) | Strict portable tests and documentation/source invariants. Created by Jason Stys. |
 | [scripts/validate\_repo.py](scripts/validate_repo.py) | Verify untouched upstream source, workflow permissions/storage rules and reviewed release contracts. Jason Stys. |
 | [tests/\_\_init\_\_.py](tests/__init__.py) | Synthetic tests by Jason Stys; fixtures are not measured cluster reports. |
 | [tests/conftest.py](tests/conftest.py) | Private per-test fixtures, with real Helm-rendered resources and explicitly fake report inputs. Jason Stys. |
 | [tests/test\_cluster\_guards.py](tests/test_cluster_guards.py) | Native context/port guard regressions; no Docker or existing Kubernetes cluster is touched. Jason Stys. |
 | [tests/test\_contracts.py](tests/test_contracts.py) | Duplicate/alias/type/file/UTF8/size/nesting adversarial inputs and normal parser boundaries. Jason Stys. |
+| [tests/test\_desktop\_gui.py](tests/test_desktop_gui.py) | Presentation-adapter unit tests with real core/SQLite workers; real widgets are separately frozen-tested. Jason Stys. |
+| [tests/test\_desktop\_io.py](tests/test_desktop_io.py) | Private state JSON and bounded descriptor-read boundary cases with actual file bytes. Jason Stys. |
+| [tests/test\_desktop\_project.py](tests/test_desktop_project.py) | Real original policy/reconciliation oracle coverage for the offline desktop controls. Jason Stys. |
+| [tests/test\_desktop\_state.py](tests/test_desktop_state.py) | Independent offline desktop ownership, byte-bound, SQLite and non-overwrite regressions. Jason Stys. |
 | [tests/test\_evidence.py](tests/test_evidence.py) | Incomplete/false success, fingerprint, report-escaping and CLI privacy regression tests. Jason Stys. |
 | [tests/test\_git\_server.py](tests/test_git_server.py) | Real clone/fetch proof for isolated read-only smart HTTP Git; endpoints never accept pushes. Jason Stys. |
+| [tests/test\_native\_inputs.py](tests/test_native_inputs.py) | Actual same-descriptor input bounds and ownership-change cases for selected offline reports. Jason Stys. |
 | [tests/test\_network.py](tests/test_network.py) | Negative oracles: refusal/timeout alone never prove policy; counts and positive controls are mandatory. Jason Stys. |
 | [tests/test\_policy.py](tests/test_policy.py) | Negative security-policy cases, type boundaries, selector semantics and randomized replicas. Jason Stys. |
+| [tests/test\_profile\_admission.py](tests/test_profile_admission.py) | Actual pre-existing alias refusal and ordinary SQLite recovery continuity. Jason Stys. |
 | [tests/test\_reconcile.py](tests/test_reconcile.py) | Independent stale-revision, missing-evidence and desired-intent review tests. Created by Jason Stys. |
+| [tests/test\_tk\_runtime.py](tests/test_tk_runtime.py) | Actual isolated native Tcl positive plus fail-closed loader/interpreter/version controls. Jason Stys. |
 | [tests/test\_workload.py](tests/test_workload.py) | Real loopback HTTP, route privacy, bounded server and provisional transport/acknowledgement tests. Jason Stys. |
 | [tools.lock.json](tools.lock.json) | Official tool archive hashes and immutable K3s image digest. |
 | [upstream.lock.json](upstream.lock.json) | Exact SRE repository revision and byte digests of reused source/notice. |
@@ -153,3 +181,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
 
 [Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
+
+## Disposable-runner network boundary
+
+[Observed setup failures and signed APT acquisition hardening](docs/reports/runner-network-2026-11-11.md). Source/core/native assertions remain mandatory; mirror selection is not a proven DNS repair or permission to bypass unavailable dependencies.
