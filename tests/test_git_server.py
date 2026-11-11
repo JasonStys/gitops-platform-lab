@@ -1,24 +1,25 @@
 """Real clone/fetch proof for isolated read-only smart HTTP Git; endpoints never accept pushes. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: command — line 36
-# parameter: args — line 36
-# parameter: cwd — line 36
-# definition: test_real_git_clone_and_endpoint_denials — line 43
-# parameter: tmp_path — line 43
-# variable: bare — line 45
-# variable: work — line 47
-# variable: expected — line 55
-# variable: server — line 58
-# variable: thread — line 59
-# variable: target — line 62
-# variable: clone — line 63
-# variable: body — line 79
-# variable: headers — line 79
-# variable: method — line 79
-# variable: path — line 79
-# variable: status — line 79
-# variable: connection — line 99
-# variable: response — line 103
+# definition: command — line 37
+# parameter: args — line 37
+# parameter: cwd — line 37
+# definition: test_real_git_clone_and_endpoint_denials — line 44
+# parameter: tmp_path — line 44
+# variable: bare — line 46
+# variable: work — line 48
+# variable: expected — line 56
+# variable: server — line 59
+# variable: thread — line 60
+# variable: target — line 63
+# variable: clone — line 64
+# variable: body — line 80
+# variable: case — line 80
+# variable: headers — line 80
+# variable: method — line 80
+# variable: path — line 80
+# variable: status — line 80
+# variable: connection — line 102
+# variable: response — line 107
 # END CODE MAP
 
 from __future__ import annotations
@@ -76,33 +77,41 @@ def test_real_git_clone_and_endpoint_denials(tmp_path: Path) -> None:
             tmp_path,
         )
         assert command(["rev-parse", "HEAD"], clone) == expected
-        for method, path, body, headers, status in (
-            ("GET", "/repo.git/info/refs?service=git-receive-pack", None, {}, 403),
-            ("POST", "/repo.git/git-receive-pack", b"no", {}, 403),
-            ("GET", "/../private", None, {}, 403),
-            ("GET", "/repo.git/info/refs?service=git-upload-pack", b"no", {}, 400),
+        for case, (method, path, body, headers, status) in enumerate(
             (
-                "POST",
-                "/repo.git/git-upload-pack",
-                b"no",
-                {"Content-Type": "wrong"},
-                400,
-            ),
-            (
-                "POST",
-                "/repo.git/git-upload-pack",
-                b"no",
-                {"Transfer-Encoding": "chunked"},
-                400,
-            ),
+                ("GET", "/repo.git/info/refs?service=git-receive-pack", None, {}, 403),
+                ("POST", "/repo.git/git-receive-pack", b"no", {}, 403),
+                ("GET", "/../private", None, {}, 403),
+                ("GET", "/repo.git/info/refs?service=git-upload-pack", b"no", {}, 400),
+                (
+                    "POST",
+                    "/repo.git/git-upload-pack",
+                    b"no",
+                    {"Content-Type": "wrong"},
+                    400,
+                ),
+                (
+                    "POST",
+                    "/repo.git/git-upload-pack",
+                    b"no",
+                    {"Transfer-Encoding": "chunked"},
+                    400,
+                ),
+            )
         ):
             connection = http.client.HTTPConnection(
                 "127.0.0.1", server.server_port, timeout=3
             )
-            connection.request(method, path, body=body, headers=headers)
-            response = connection.getresponse()
-            assert response.status == status and response.read() == b""
-            connection.close()
+            try:
+                connection.request(method, path, body=body, headers=headers)
+                response = connection.getresponse()
+                assert response.status == status and response.read() == b""
+            except OSError as error:
+                raise AssertionError(
+                    f"denial-framing-case-{case}-{method}: {type(error).__name__}"
+                ) from error
+            finally:
+                connection.close()
     finally:
         server.shutdown()
         server.server_close()
