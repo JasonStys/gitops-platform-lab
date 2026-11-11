@@ -105,6 +105,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [docs/reports/project-guide.docx](docs/reports/project-guide.docx) | Reviewed Word project guide with source revision and dated validation scope. |
 | [docs/reports/publications.json](docs/reports/publications.json) | Exact reviewed Office file identities, immutable source baseline and workflow observations. |
 | [docs/reports/reconciliation-2026-11-09.md](docs/reports/reconciliation-2026-11-09.md) | Reconciliation review validation — 2026-11-09. |
+| [docs/reports/rollback-observation-2026-11-11.md](docs/reports/rollback-observation-2026-11-11.md) | Completed rollback observations. |
 | [docs/reports/runner-network-2026-11-11.md](docs/reports/runner-network-2026-11-11.md) | Disposable-runner package acquisition — 2026-11-11. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Measured validation and author review. |
 | [docs/reports/windows-application-guide-1.1.0-r2.docx](docs/reports/windows-application-guide-1.1.0-r2.docx) | Current peer-reviewed installed app guide with actual screenshots and immutable code. |
@@ -158,6 +159,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [tests/\_\_init\_\_.py](tests/__init__.py) | Synthetic tests by Jason Stys; fixtures are not measured cluster reports. |
 | [tests/conftest.py](tests/conftest.py) | Private per-test fixtures, with real Helm-rendered resources and explicitly fake report inputs. Jason Stys. |
 | [tests/test\_cluster\_guards.py](tests/test_cluster_guards.py) | Native context/port guard regressions; no Docker or existing Kubernetes cluster is touched. Jason Stys. |
+| [tests/test\_cluster\_rollback.py](tests/test_cluster_rollback.py) | Observed rollback transition and false-success regressions without Docker or Kubernetes. Jason Stys. |
 | [tests/test\_contracts.py](tests/test_contracts.py) | Duplicate/alias/type/file/UTF8/size/nesting adversarial inputs and normal parser boundaries. Jason Stys. |
 | [tests/test\_desktop\_gui.py](tests/test_desktop_gui.py) | Presentation-adapter unit tests with real core/SQLite workers; real widgets are separately frozen-tested. Jason Stys. |
 | [tests/test\_desktop\_io.py](tests/test_desktop_io.py) | Private state JSON and bounded descriptor-read boundary cases with actual file bytes. Jason Stys. |
