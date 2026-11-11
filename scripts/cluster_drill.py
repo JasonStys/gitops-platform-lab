@@ -1,162 +1,180 @@
 """Actual disposable K3s/Flux/Helm Git, policy, drift and rollback drill. Created by Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ROOT — line 180
-# definition: loopback_port — line 187
-# variable: reservation — line 189
-# definition: validate_config — line 194
-# parameter: cluster — line 194
-# parameter: content — line 194
-# parameter: port — line 194
-# variable: config — line 196
-# variable: expected — line 197
-# variable: clusters — line 204
-# variable: contexts — line 205
-# definition: Drill — line 220
-# definition: __init__ — line 223
-# parameter: output — line 223
-# parameter: self — line 223
-# definition: run — line 237
-# parameter: self — line 238
-# parameter: args — line 239
-# parameter: cwd — line 241
-# parameter: data — line 242
-# parameter: valid — line 243
-# parameter: timeout — line 244
-# parameter: include_error — line 245
-# variable: executable — line 248
-# variable: command — line 249
-# variable: completed — line 250
-# definition: kube — line 271
-# parameter: args — line 272
-# parameter: data — line 272
-# parameter: self — line 272
-# parameter: valid — line 272
-# definition: get — line 281
-# parameter: kind — line 282
-# parameter: name — line 282
-# parameter: namespace — line 282
-# parameter: self — line 282
-# variable: output — line 285
-# definition: wait — line 290
-# parameter: predicate — line 290
+# variable: ROOT — line 198
+# definition: loopback_port — line 205
+# variable: reservation — line 207
+# definition: validate_config — line 212
+# parameter: cluster — line 212
+# parameter: content — line 212
+# parameter: port — line 212
+# variable: config — line 214
+# variable: expected — line 215
+# variable: clusters — line 222
+# variable: contexts — line 223
+# definition: Drill — line 238
+# definition: __init__ — line 241
+# parameter: output — line 241
+# parameter: self — line 241
+# definition: run — line 255
+# parameter: self — line 256
+# parameter: args — line 257
+# parameter: cwd — line 259
+# parameter: data — line 260
+# parameter: valid — line 261
+# parameter: timeout — line 262
+# parameter: include_error — line 263
+# variable: executable — line 266
+# variable: command — line 267
+# variable: completed — line 268
+# definition: kube — line 289
+# parameter: args — line 290
+# parameter: data — line 290
 # parameter: self — line 290
-# parameter: timeout — line 290
-# variable: deadline — line 292
-# definition: check — line 299
-# parameter: evidence — line 299
-# parameter: name — line 299
-# parameter: self — line 299
-# parameter: started — line 299
-# variable: item — line 301
-# definition: commit — line 312
-# parameter: path — line 312
-# parameter: replicas — line 312
-# parameter: revision — line 312
-# parameter: self — line 312
-# variable: target — line 314
-# variable: release — line 315
-# definition: ready — line 327
-# parameter: replicas — line 327
-# parameter: revision — line 327
-# parameter: self — line 327
-# variable: deployment — line 329
-# variable: spec — line 332
-# variable: status — line 332
-# variable: helm — line 333
-# variable: conditions — line 336
-# variable: item — line 347
-# definition: source_seen — line 351
-# parameter: commit — line 351
-# parameter: self — line 351
-# variable: revision — line 353
-# definition: network — line 361
-# parameter: expected — line 361
-# parameter: namespace — line 361
-# parameter: role — line 361
-# parameter: self — line 361
-# variable: name — line 363
-# variable: pod — line 364
-# variable: before — line 401
-# variable: receipts — line 410
-# definition: logged — line 412
-# variable: logs — line 414
-# variable: logs — line 421
-# variable: after — line 422
-# variable: result — line 440
-# variable: proof — line 455
-# variable: attempts — line 456
-# definition: reject_count — line 470
-# parameter: self — line 470
-# variable: source — line 472
-# variable: counts — line 481
-# variable: line — line 482
-# variable: match — line 488
-# definition: bootstrap — line 495
-# parameter: self — line 495
-# variable: started — line 497
-# variable: endpoint — line 498
-# variable: lock — line 507
-# variable: api_port — line 510
-# variable: kubeconfig — line 534
-# variable: image_id — line 539
-# variable: controllers — line 551
-# variable: controller — line 562
-# variable: account — line 575
-# variable: controller — line 575
-# variable: current — line 579
-# variable: args — line 580
-# variable: args — line 581
-# variable: folder — line 612
-# variable: bare — line 615
-# variable: commit — line 629
-# variable: network — line 630
-# variable: gateway — line 633
-# variable: sync — line 651
-# definition: execute — line 669
-# parameter: self — line 669
-# variable: image_id — line 671
-# variable: started — line 672
-# variable: promotion — line 673
-# variable: started — line 678
-# variable: injection — line 679
-# variable: started — line 699
-# variable: account — line 700
-# variable: expected — line 700
-# variable: namespace — line 700
-# variable: resource — line 700
-# variable: verb — line 700
-# variable: result — line 714
-# variable: expected — line 737
-# variable: namespace — line 737
-# variable: role — line 737
-# variable: scenario — line 737
-# variable: started — line 742
-# variable: proof — line 743
-# variable: started — line 747
-# variable: unsafe — line 748
-# variable: result — line 762
-# variable: started — line 785
-# variable: broken — line 786
-# variable: item — line 795
-# variable: history — line 809
-# variable: item — line 813
-# variable: started — line 828
-# variable: recovery — line 829
-# variable: report — line 836
-# definition: close — line 851
-# parameter: self — line 851
-# definition: diagnostics — line 863
-# parameter: self — line 863
-# variable: kind — line 867
-# variable: name — line 867
-# variable: item — line 874
-# variable: conditions — line 875
-# variable: key — line 883
-# variable: condition — line 885
-# definition: main — line 898
-# variable: parser — line 900
-# variable: args — line 903
-# variable: drill — line 908
+# parameter: valid — line 290
+# definition: get — line 299
+# parameter: kind — line 300
+# parameter: name — line 300
+# parameter: namespace — line 300
+# parameter: self — line 300
+# variable: output — line 303
+# definition: wait — line 308
+# parameter: predicate — line 308
+# parameter: self — line 308
+# parameter: timeout — line 308
+# variable: deadline — line 310
+# definition: check — line 317
+# parameter: evidence — line 317
+# parameter: name — line 317
+# parameter: self — line 317
+# parameter: started — line 317
+# variable: item — line 319
+# definition: commit — line 330
+# parameter: path — line 330
+# parameter: replicas — line 330
+# parameter: revision — line 330
+# parameter: self — line 330
+# variable: target — line 332
+# variable: release — line 333
+# definition: ready — line 345
+# parameter: replicas — line 345
+# parameter: revision — line 345
+# parameter: self — line 345
+# variable: deployment — line 347
+# variable: spec — line 350
+# variable: status — line 350
+# variable: helm — line 351
+# variable: conditions — line 354
+# variable: item — line 365
+# definition: source_seen — line 369
+# parameter: commit — line 369
+# parameter: self — line 369
+# variable: revision — line 371
+# definition: rollback_ready — line 379
+# parameter: self — line 379
+# variable: helm — line 381
+# variable: generation — line 382
+# variable: conditions — line 383
+# variable: item — line 389
+# variable: item — line 396
+# variable: deployment — line 400
+# variable: spec — line 401
+# variable: status — line 401
+# variable: template — line 402
+# variable: containers — line 403
+# variable: history — line 422
+# variable: item — line 439
+# variable: revisions — line 439
+# variable: value — line 441
+# variable: latest — line 444
+# variable: rollback — line 445
+# variable: target — line 455
+# variable: item — line 459
+# variable: item — line 462
+# definition: network — line 465
+# parameter: expected — line 465
+# parameter: namespace — line 465
+# parameter: role — line 465
+# parameter: self — line 465
+# variable: name — line 467
+# variable: pod — line 468
+# variable: before — line 505
+# variable: receipts — line 514
+# definition: logged — line 516
+# variable: logs — line 518
+# variable: logs — line 525
+# variable: after — line 526
+# variable: result — line 544
+# variable: proof — line 559
+# variable: attempts — line 560
+# definition: reject_count — line 574
+# parameter: self — line 574
+# variable: source — line 576
+# variable: counts — line 585
+# variable: line — line 586
+# variable: match — line 592
+# definition: bootstrap — line 599
+# parameter: self — line 599
+# variable: started — line 601
+# variable: endpoint — line 602
+# variable: lock — line 611
+# variable: api_port — line 614
+# variable: kubeconfig — line 638
+# variable: image_id — line 643
+# variable: controllers — line 655
+# variable: controller — line 666
+# variable: account — line 679
+# variable: controller — line 679
+# variable: current — line 683
+# variable: args — line 684
+# variable: args — line 685
+# variable: folder — line 716
+# variable: bare — line 719
+# variable: commit — line 733
+# variable: network — line 734
+# variable: gateway — line 737
+# variable: sync — line 755
+# definition: execute — line 773
+# parameter: self — line 773
+# variable: image_id — line 775
+# variable: started — line 776
+# variable: promotion — line 777
+# variable: started — line 782
+# variable: injection — line 783
+# variable: started — line 803
+# variable: account — line 804
+# variable: expected — line 804
+# variable: namespace — line 804
+# variable: resource — line 804
+# variable: verb — line 804
+# variable: result — line 818
+# variable: expected — line 841
+# variable: namespace — line 841
+# variable: role — line 841
+# variable: scenario — line 841
+# variable: started — line 846
+# variable: proof — line 847
+# variable: started — line 851
+# variable: unsafe — line 852
+# variable: result — line 866
+# variable: started — line 889
+# variable: broken — line 890
+# variable: started — line 905
+# variable: recovery — line 906
+# variable: report — line 913
+# definition: close — line 928
+# parameter: self — line 928
+# definition: diagnostics — line 940
+# parameter: self — line 940
+# variable: kind — line 944
+# variable: name — line 944
+# variable: item — line 951
+# variable: conditions — line 952
+# variable: key — line 960
+# variable: condition — line 962
+# definition: main — line 975
+# variable: parser — line 977
+# variable: args — line 980
+# variable: drill — line 985
 # END CODE MAP
 
 from __future__ import annotations
@@ -357,6 +375,92 @@ class Drill:
             .get("revision", "")
         )
         return revision.endswith(commit)
+
+    def rollback_ready(self) -> bool:
+        """Require completed remediation, restored current pods and retained Helm rollback history in one poll."""
+        helm = self.get("helmrelease", "sre")
+        generation = helm.get("metadata", {}).get("generation")
+        conditions = helm.get("status", {}).get("conditions", [])
+        if (
+            type(generation) is not int
+            or generation < 1
+            or any(
+                item.get("type") == "Reconciling" and item.get("status") == "True"
+                for item in conditions
+            )
+            or not any(
+                item.get("type") == "Remediated"
+                and item.get("status") == "True"
+                and item.get("reason") == "RollbackSucceeded"
+                and item.get("observedGeneration") == generation
+                for item in conditions
+            )
+        ):
+            return False
+        deployment = self.get("deployment", "sre")
+        spec, status = deployment.get("spec", {}), deployment.get("status", {})
+        template = spec.get("template", {})
+        containers = template.get("spec", {}).get("containers", [])
+        if (
+            spec.get("replicas") != 2
+            or status.get("readyReplicas") != 2
+            or status.get("updatedReplicas") != 2
+            or status.get("replicas") != 2
+            or status.get("availableReplicas") != 2
+            or status.get("unavailableReplicas", 0) != 0
+            or status.get("observedGeneration")
+            != deployment.get("metadata", {}).get("generation")
+            or template.get("metadata", {})
+            .get("annotations", {})
+            .get("gitops.platform/revision")
+            != "promoted"
+            or len(containers) != 1
+            or containers[0].get("readinessProbe", {}).get("httpGet", {}).get("path")
+            != "/health"
+        ):
+            return False
+        history = json.loads(
+            self.run(
+                [
+                    "helm",
+                    "history",
+                    "sre",
+                    "-n",
+                    "platform-lab",
+                    "--max",
+                    "10",
+                    "-o",
+                    "json",
+                ]
+            )
+        )
+        if not isinstance(history, list) or not 1 <= len(history) <= 10:
+            raise ValueError("invalid bounded Helm history")
+        revisions = [item.get("revision") for item in history]
+        if any(
+            type(value) is not int or value < 1 for value in revisions
+        ) or revisions != sorted(set(revisions)):
+            raise ValueError("invalid ordered Helm revisions")
+        latest = history[-1]
+        rollback = re.fullmatch(
+            r"Rollback to ([1-9][0-9]*)", latest.get("description", "")
+        )
+        if (
+            latest.get("status") != "deployed"
+            or rollback is None
+            or not isinstance(latest.get("chart"), str)
+            or not latest["chart"]
+        ):
+            return False
+        target = int(rollback[1])
+        return any(
+            item.get("status") == "failed"
+            and target < item["revision"] < latest["revision"]
+            for item in history
+        ) and any(
+            item["revision"] == target and item.get("chart") == latest.get("chart")
+            for item in history
+        )
 
     def network(self, namespace: str, role: str, expected: str) -> dict[str, Any]:
         """Run a bounded restricted probe Pod against the exact owned Service; no exec shell or arbitrary target."""
@@ -785,35 +889,8 @@ class Drill:
         started = time.monotonic()
         broken = self.commit("broken", 2, "/missing")
         self.wait(lambda: self.source_seen(broken))
-        self.wait(
-            lambda: any(
-                item["type"] == "Remediated"
-                and item["status"] == "True"
-                and item["reason"] == "RollbackSucceeded"
-                and item.get("observedGeneration")
-                == self.get("helmrelease", "sre")["metadata"]["generation"]
-                for item in self.get("helmrelease", "sre")
-                .get("status", {})
-                .get("conditions", [])
-            ),
-            180,
-        )
-        self.wait(
-            lambda: (
-                self.get("deployment", "sre")["spec"]["template"]["spec"]["containers"][
-                    0
-                ]["readinessProbe"]["httpGet"]["path"]
-                == "/health"
-            )
-        )
-        history = json.loads(
-            self.run(["helm", "history", "sre", "-n", "platform-lab", "-o", "json"])
-        )
-        if (
-            not any(item["status"] == "failed" for item in history)
-            or history[-1]["status"] != "deployed"
-        ):
-            raise AssertionError("actual Helm rollback history missing")
+        # Retained Remediated conditions and restored pods may precede Helm's final history update.
+        self.wait(self.rollback_ready, 180)
         self.network("platform-client", "reviewer", "allow")
         self.check(
             "failed_release_rollback",

@@ -8,6 +8,7 @@ Author: Jason Stys. Unit fixtures are synthetic; live enforcement claims require
 | Unsafe chart change | Native Helm ten-case value/schema matrix plus independent closed-resource policy and property-tested replica quota |
 | Incorrect permission/network assumptions | Actual impersonated can-i matrix, CNI counter-confirmed denial with positive controls and explicit server-side restricted PSA rejection |
 | Git/controller drift or bad readiness | Actual scratch commits with observed exact revision, replica drift repair, current Helm/Deployment conditions and retained failed/rollback history |
+| Asynchronous rollback false success | One unchanged 180 second remediation poll requires a current nonreconciling RollbackSucceeded condition, restored observed promoted pods and deployed rollback history; pending history, stale generations, unrelated upgrades and command errors cannot pass |
 | Dead-service false denial | Eligible transport plus new scoped policy REJECT packets, successful probe exit and exact HTTP-200 controls before/after; zero/stale counters and DNS errors fail |
 | New-Pod policy onboarding | Bounded positive convergence with disclosed attempt count; permanent blockage, malformed responses and DNS errors fail; negative observations never retry |
 | Report/privacy mistakes | Incomplete/duplicate/FAIL suite rejection, closed aggregate fields, private-input nondisclosure, escaped inert HTML and no overwrites |
