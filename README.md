@@ -97,6 +97,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [docs/reports/documentation-refresh-2026-11-09.md](docs/reports/documentation-refresh-2026-11-09.md) | Documentation refresh — 2026-11-09. |
 | [docs/reports/drill.html](docs/reports/drill.html) | Escaped inert HTML rendering of the measured synthetic drill. |
 | [docs/reports/drill.json](docs/reports/drill.json) | Actual disposable-cluster Git/RBAC/network/drift/rollback measurements. |
+| [docs/reports/installed-windows-1.1.0-2026-11-11.md](docs/reports/installed-windows-1.1.0-2026-11-11.md) | Observed installed workflows, delivery evidence, data preservation and practical limits. |
 | [docs/reports/manifest.json](docs/reports/manifest.json) | Actual ten-case native Helm schema/render validation. |
 | [docs/reports/native-workbench-2026-11-11.md](docs/reports/native-workbench-2026-11-11.md) | Native offline workbench validation — 2026-11-11. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
@@ -105,6 +106,8 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [docs/reports/reconciliation-2026-11-09.md](docs/reports/reconciliation-2026-11-09.md) | Reconciliation review validation — 2026-11-09. |
 | [docs/reports/runner-network-2026-11-11.md](docs/reports/runner-network-2026-11-11.md) | Disposable-runner package acquisition — 2026-11-11. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Measured validation and author review. |
+| [docs/reports/windows-application-guide-1.1.0.docx](docs/reports/windows-application-guide-1.1.0.docx) | Current peer-reviewed installed app guide with actual screenshots and immutable code. |
+| [docs/reports/windows-application-guide-1.1.0.json](docs/reports/windows-application-guide-1.1.0.json) | Exact guide, source, image and individually reviewed page identities. |
 | [docs/research.md](docs/research.md) | Primary sources and implementation rationale. |
 | [docs/runbook.md](docs/runbook.md) | Operating and recovery runbook. |
 | [docs/testing.md](docs/testing.md) | Risk-based validation strategy. |
@@ -185,3 +188,8 @@ Start with the [organized handbook](docs/handbook.md) for current usage, design,
 ## Disposable-runner network boundary
 
 [Observed setup failures and signed APT acquisition hardening](docs/reports/runner-network-2026-11-11.md). Source/core/native assertions remain mandatory; mirror selection is not a proven DNS repair or permission to bypass unavailable dependencies.
+
+
+## Current installed application guide
+
+The published **1.1.0** application has a [four-page guide](docs/reports/windows-application-guide-1.1.0.docx) with actual installed screenshots, a practical journey, immutable source excerpts and operating limits. The [installed validation report](docs/reports/installed-windows-1.1.0-2026-11-11.md) explains the results and [review manifest](docs/reports/windows-application-guide-1.1.0.json) records exact source, image and page identities. Historical documentation remains available.

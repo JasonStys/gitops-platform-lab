@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "repository": "gitops-platform-lab",
+  "runtimeVersion": "1.1.0",
+  "runtimeSource": "89fffbae0bd2fe1f74e2954edb8b981be42e5b6f",
+  "createdAt": "2026-11-11T16:20:27.942Z",
+  "author": "Jason Stys",
+  "document": "windows-application-guide-1.1.0.docx",
+  "sha256": "e10081acd9b890359134e2682ebfb2b314ea9d0c5dd4f88611ad4061e51b1d17",
+  "screenshots": [
+    {
+      "file": "selected-evidence.png",
+      "sha256": "c7896a067d227c6a9b19c3fb9e683cf2236fdcfe701f09eecf745aa67bd5e710",
+      "width": 1276,
+      "height": 899,
+      "caption": "The installed snapshot review displays actual applied revision and generation checks over the supplied captured evidence."
+    },
+    {
+      "file": "owner-unknown-review.png",
+      "sha256": "7c789d144bb28b25f99d0131bf1be6b4836b9bf0d29f7089041f9754b7e73e49",
+      "width": 1276,
+      "height": 899,
+      "caption": "The installed evidence view retains original inputs and scope. Its result does not assert that a live controller enforced the policy."
+    }
+  ],
+  "snippets": [
+    {
+      "file": "lab/desktop_project.py",
+      "first": 255,
+      "last": 278,
+      "sha256": "7a2343a727d01bc1f15632154f4109bf7accaef6cd7a238f53712724357046c7",
+      "url": "https://github.com/JasonStys/gitops-platform-lab/blob/89fffbae0bd2fe1f74e2954edb8b981be42e5b6f/lab/desktop_project.py#L255"
+    }
+  ],
+  "observedTests": [
+    {
+      "name": "Independent distribution",
+      "observed": "Downloaded provider assets, sidecar and installed file identities matched. The complete installed app was used; installation resources remained byte-identical.",
+      "result": "Passed"
+    },
+    {
+      "name": "Actual app use and restart",
+      "observed": "Twelve real installed workflows and twelve reopened evidence bundles passed the original full native consumer, including original/effective policy checks and two normal exits.",
+      "result": "Passed"
+    },
+    {
+      "name": "Source and security",
+      "observed": "All current main workflows passed before publication. All configured exact-source processed CodeQL categories had zero raw findings and zero open alerts.",
+      "result": "Passed"
+    },
+    {
+      "name": "Individual shortcut",
+      "observed": "Desktop and Start-menu targets were read back against the installed version. Normal default-profile shortcut activation is separate from full installed executable acceptance.",
+      "result": "Verified"
+    }
+  ],
+  "visualReview": "all four pages individually approved",
+  "reviewer": "audit_cyber",
+  "reviewedPageHashes": {
+    "page-1.png": "b76ed757fa4b9f8624f3d2973001287142a2fce362e1361f5d3020243c7c9224",
+    "page-2.png": "0db2f2e719a87e7110f9c8e226c567c00065d0ae460ea06d1b4102ad18949587",
+    "page-3.png": "193227eb79bc4d1778037e9efb839354d7f0a29f986e67eb33912a1eae41744f",
+    "page-4.png": "afa69e1921673fc8f94a2677d36394d4d942314bb7f5526690b30c9757c22623"
+  },
+  "privateTestInputsOnly": true
+}
