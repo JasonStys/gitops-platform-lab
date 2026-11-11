@@ -136,6 +136,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [scripts/benchmark.py](scripts/benchmark.py) | Informational warmed policy parsing/audit benchmark with an actual correctness oracle. Jason Stys. |
 | [scripts/bootstrap.py](scripts/bootstrap.py) | Install explicit hash-pinned official tools without shell installers or unsafe extraction. Jason Stys. |
 | [scripts/build\_native.py](scripts/build_native.py) | Build the complete real offline workbench as one Windows portable executable. Jason Stys. |
+| [scripts/check\_tk\_runtime.py](scripts/check_tk_runtime.py) | Require the selected interpreter's actual native Tk imports and loaded Tcl, without a display. Jason Stys. |
 | [scripts/cluster\_drill.py](scripts/cluster_drill.py) | Actual disposable K3s/Flux/Helm Git, policy, drift and rollback drill. Created by Jason Stys. |
 | [scripts/code\_map.py](scripts/code_map.py) | Generate/check exact Python, SQL, shell and YAML symbol positions. Created by Jason Stys. |
 | [scripts/file\_guide.py](scripts/file_guide.py) | Generate exhaustive Git-tracked README summaries without including ignored runtime data. Jason Stys. |
@@ -163,7 +164,7 @@ The architecture, testing and review guidance shaped the closed chart, explicit 
 | [tests/test\_policy.py](tests/test_policy.py) | Negative security-policy cases, type boundaries, selector semantics and randomized replicas. Jason Stys. |
 | [tests/test\_profile\_admission.py](tests/test_profile_admission.py) | Actual pre-existing alias refusal and ordinary SQLite recovery continuity. Jason Stys. |
 | [tests/test\_reconcile.py](tests/test_reconcile.py) | Independent stale-revision, missing-evidence and desired-intent review tests. Created by Jason Stys. |
-| [tests/test\_runner\_network\_policy.py](tests/test_runner_network_policy.py) | Actual workflow policy mutants for signed disposable-runner APT acquisition. Jason Stys. |
+| [tests/test\_tk\_runtime.py](tests/test_tk_runtime.py) | Actual isolated native Tcl positive plus fail-closed loader/interpreter/version controls. Jason Stys. |
 | [tests/test\_workload.py](tests/test_workload.py) | Real loopback HTTP, route privacy, bounded server and provisional transport/acknowledgement tests. Jason Stys. |
 | [tools.lock.json](tools.lock.json) | Official tool archive hashes and immutable K3s image digest. |
 | [upstream.lock.json](upstream.lock.json) | Exact SRE repository revision and byte digests of reused source/notice. |

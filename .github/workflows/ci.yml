@@ -1,40 +1,35 @@
 # Jason Stys: strict cross-platform tests, native Helm, real isolated Flux/K3s enforcement and security.
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# parameter: name — line 39
-# parameter: on — line 40
-# parameter: push — line 41
-# parameter: branches — line 42
-# parameter: pull_request — line 43
-# parameter: workflow_dispatch — line 44
-# parameter: permissions — line 45
-# parameter: contents — line 46
-# parameter: concurrency — line 47
-# parameter: group — line 48
-# expression: github.ref — line 48
-# parameter: jobs — line 50
-# parameter: quality — line 51
-# expression: matrix.python — line 52
-# expression: matrix.os — line 52
-# parameter: strategy — line 55
-# parameter: matrix — line 57
-# parameter: include — line 58
-# parameter: steps — line 63
-# parameter: uses — line 64
-# parameter: with — line 65
-# parameter: if — line 71
-# parameter: shell — line 73
-# parameter: run — line 74
-# variable: GITHUB_ACTIONS — line 76
-# variable: RUNNER_OS — line 77
-# variable: ID — line 80
-# variable: VERSION_ID — line 81
-# variable: apt_network_config — line 93
-# variable: GITHUB_STEP_SUMMARY — line 107
-# parameter: helm — line 108
-# parameter: cluster — line 121
-# parameter: security — line 147
-# parameter: env — line 177
-# parameter: PIP_NO_CACHE_DIR — line 178
+# parameter: name — line 34
+# parameter: on — line 35
+# parameter: push — line 36
+# parameter: branches — line 37
+# parameter: pull_request — line 38
+# parameter: workflow_dispatch — line 39
+# parameter: permissions — line 40
+# parameter: contents — line 41
+# parameter: concurrency — line 42
+# parameter: group — line 43
+# expression: github.ref — line 43
+# parameter: jobs — line 45
+# parameter: quality — line 46
+# expression: matrix.python — line 47
+# expression: matrix.os — line 47
+# parameter: strategy — line 50
+# parameter: matrix — line 52
+# parameter: include — line 53
+# parameter: steps — line 58
+# parameter: uses — line 59
+# parameter: with — line 60
+# parameter: run — line 66
+# parameter: shell — line 69
+# parameter: if — line 72
+# variable: GITHUB_STEP_SUMMARY — line 74
+# parameter: helm — line 75
+# parameter: cluster — line 88
+# parameter: security — line 114
+# parameter: env — line 144
+# parameter: PIP_NO_CACHE_DIR — line 145
 # END CODE MAP
 name: Validate
 on:
@@ -67,36 +62,8 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: ${{ matrix.python }}
-      - name: Bound official mirror access on the disposable Ubuntu runner
-        if: runner.os == 'Linux'
-        timeout-minutes: 1
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$GITHUB_ACTIONS" = "true"
-          test "$RUNNER_OS" = "Linux"
-          test "$(uname -m)" = "x86_64"
-          . /etc/os-release
-          test "$ID" = "ubuntu"
-          test "$VERSION_ID" = "24.04"
-          test -f /etc/apt/apt-mirrors.txt
-          test -f /usr/share/keyrings/ubuntu-archive-keyring.gpg
-          grep -Eq '^URIs:[[:space:]]+mirror[+]file:/etc/apt/apt-mirrors[.]txt[[:space:]]*$' /etc/apt/sources.list.d/ubuntu.sources
-          grep -Eq '^Signed-By:[[:space:]]+/usr/share/keyrings/ubuntu-archive-keyring[.]gpg[[:space:]]*$' /etc/apt/sources.list.d/ubuntu.sources
-          # Keep suites/components/keyrings unchanged; no Azure mirror or unsigned fallback.
-          printf 'https://archive.ubuntu.com/ubuntu/\tpriority:1\nhttps://security.ubuntu.com/ubuntu/\tpriority:2\n' |
-            sudo tee /etc/apt/apt-mirrors.txt >/dev/null
-          # Bound existing acquisition, not test budgets; explicitly add no retries.
-          printf '%s\n' 'Acquire::Retries "0";' 'Acquire::http::Timeout "15";' 'Acquire::https::Timeout "15";' |
-            sudo tee /etc/apt/apt.conf.d/zzzz-portfolio-network >/dev/null
-          apt_network_config="$(apt-config dump Acquire::Retries Acquire::http::Timeout Acquire::https::Timeout)"
-          printf '%s\n' "$apt_network_config"
-          grep -Fx 'Acquire::Retries "0";' <<< "$apt_network_config"
-          grep -Fx 'Acquire::http::Timeout "15";' <<< "$apt_network_config"
-          grep -Fx 'Acquire::https::Timeout "15";' <<< "$apt_network_config"
-      - name: Install native Tk import support on Linux
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y python3-tk
+      - name: Require actual selected-Python Tk runtime (no display)
+        run: python -I scripts/check_tk_runtime.py
       - run: python -m pip install --require-hashes -r requirements-dev.lock
       - name: Strict tests, native loopback HTTP/Git and maintained source maps
         shell: bash
